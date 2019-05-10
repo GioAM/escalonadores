@@ -3,7 +3,7 @@ Escalonadores
 
 --------------------
 
-Simples aplicação demonstrativa do problema de Escalonadores. Desenvolvido para a matéria de Sistemas Operacionais I.
+Simples aplicação demonstrativa de Escalonadores. Desenvolvido para a matéria de Sistemas Operacionais I.
 
 - **Demo:**
 
