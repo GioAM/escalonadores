@@ -1,0 +1,22 @@
+{
+  "name": "escalonadores",
+  "version": "1.0.0",
+  "description": "Simples aplicação demonstrativa de Escalonadores. Desenvolvido para a matéria de Sistemas Operacionais I.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GioAM/escalonadores.git"
+  },
+  "keywords": [
+    "scheduler"
+  ],
+  "author": "Cristian J. Ambrosi, Giovani Meneguel, Leticia May",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/GioAM/escalonadores/issues"
+  },
+  "homepage": "https://github.com/GioAM/escalonadores#readme"
+}
