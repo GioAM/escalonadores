@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/GioAM/escalonadores/issues"
   },
-  "homepage": "https://github.com/GioAM/escalonadores#readme"
+  "homepage": "https://github.com/GioAM/escalonadores#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.5",
+    "gulp": "^4.0.2"
+  }
 }
