@@ -1,39 +1,43 @@
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<title>Escalonamento - Sistemas Operacionais</title>
-		<link href="css/main.css" rel="stylesheet" type="text/css"/>
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-		<script src="https://github.com/chartjs/Chart.js/releases/download/v2.8.0/Chart.js"></script>
-		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet"/>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-		<script type="text/javascript" src="js/main.js"></script>
-	</head>
-	<body>
-		<h1>Escalonamento</h1>
-		<div class="body-app">
-			<div class="logs-app">
-				<h1>LOGS</h1>
-				<ul class="table-logs">
-				</ul>
-			</div>
-			<div class="config-app">
-				<div class="info-app">
-					<div class="inputs-app">
-						<input placeholder="Tempo de execução (em segundos)" id="time"/>
-					</div>
-					<br></br>
-					<div class="buttons-app">
-						<button onclick="showAllJobs()" class="btn-start">Mostrar</button>
-						<button onclick="createQueue()" class="btn-start">Adicionar a fila</button>
-						<button onclick="createChart()" class="btn-start">Montar Gráfico</button>
-						<button onclick="startJobs()" class="btn-start">Iniciar Jobs</button>
-					</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Escalonamento - Sistemas Operacionais I</title>
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet"/>
+	<link href="assets/css/default.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+	<h1>Escalonamento</h1>
+	<div class="body-app">
+		<div class="logs-app">
+			<h1>LOGS</h1>
+			<ul class="table-logs">
+			</ul>
+		</div>
+		<div class="config-app">
+			<div class="info-app">
+				<div class="inputs-app">
+					<input placeholder="Tempo de execuï¿½ï¿½o (em segundos)" id="time"/>
+				</div>
+				<br></br>
+				<div class="buttons-app">
+					<button onclick="showAllJobs()" class="btn-start">Mostrar</button>
+					<button onclick="createQueue()" class="btn-start">Adicionar a fila</button>
+					<button onclick="createChart()" class="btn-start">Montar Grï¿½fico</button>
+					<button onclick="startJobs()" class="btn-start">Iniciar Jobs</button>
 				</div>
 			</div>
 		</div>
-		<div class="chart-app">
-			<canvas id="myChart"></canvas>
-		</div>
-	</body>
+	</div>
+	<div class="chart-app">
+		<canvas id="myChart"></canvas>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://github.com/chartjs/Chart.js/releases/download/v2.8.0/Chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	<script src="assets/js/default.js" type="text/javascript"></script>
+</body>
 </html>
