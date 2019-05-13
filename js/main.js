@@ -11,6 +11,7 @@ function createQueue(){
 
 function startJobs() {
 	$('.table-logs').append("<li>Iniciando execu\u00e7\u00e3o dos Jobs.</li>");
+	allJobs.sort(compare);
 	for (var i = 0; i < allJobs.length; i++) {
 		if(i == 0){
 			startTimeJobs = new Date().getTime();
@@ -71,4 +72,11 @@ function createChart(){
 		},
 		options: {}
 	});
+}
+function compare(jobA,jobB) {
+  if (jobA.totalTime < jobB.totalTime)
+     return -1;
+  if (jobA.totalTime > jobB.totalTime)
+    return 1;
+  return 0;
 }
