@@ -13,17 +13,17 @@ Escalonadores
 
   - NodeJS
 
-      - [Windows]()
+      - [Windows](https://nodejs.org/en/download/)
 
       - [Linux (Debian/Ubuntu)](https://github.com/CristianAmbrosi/tutoriais/blob/master/Instalar%20Node.js%20no%20Ubuntu.md)
 
-      - [MacOS]()
+      - [MacOS](https://nodejs.org/en/download/)
 
   - Gulp.js
 
       - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando a baixo:
 
-        > npm intall -g gulp-cli
+        > npm intall --global gulp-cli
 
         - Verfique a versão do Gulp com o comando a baixo:
 
