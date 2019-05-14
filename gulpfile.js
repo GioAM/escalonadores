@@ -6,8 +6,8 @@ const jsmin  = require('gulp-jsmin');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
 const notify = require('gulp-notify');
-const uglifycss = require('gulp-uglifycss');
 const nodemon = require('gulp-nodemon');
+const uglifycss = require('gulp-uglifycss');
 const browserSync = require('browser-sync').create();
 
 let reload = browserSync.reload;
@@ -46,7 +46,7 @@ let sources = {
     server: {
         url: 'localhost:8088',
         port: '8090',
-        serve_file: 'server.js',
+        server_file: 'server.js',
         ignore: [
             'gulpfile.js',
             'node_modules/'
@@ -83,9 +83,9 @@ function style() {
 function server(done) {
     var called = false;
     return nodemon({
-        script: sources.server.serve_file,
+        script: sources.server.server_file,
         ignore: [sources.server.ignore]
-    }).on('start', function () {
+    }).on('start', function() {
         if (!called) {
             called = true;
             done();
