@@ -7,7 +7,7 @@ Escalonadores
 
 --------------------
 
-## Executar localmente
+## Executando localmente
 
 #### Antes, é necessário ter instalado em sua máquina os seguintes requisítos:
 
@@ -43,6 +43,6 @@ Escalonadores
 
       > gulp
 
-      - *Deve abrir automáticamente o seu navegador.*
+      - *Deve abrir automaticamente o seu navegador.*
 
 --------------------
