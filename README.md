@@ -3,8 +3,6 @@ Escalonadores
 
 --------------------
 
-Simples aplicação demonstrativa de Escalonadores. Desenvolvido para a matéria de Sistemas Operacionais I.
-
 - **Demo:** https://gioam.github.io/escalonadores
 
 --------------------
@@ -21,9 +19,9 @@ Simples aplicação demonstrativa de Escalonadores. Desenvolvido para a matéria
 
       - [MacOS]()
 
-  - GulpJS >= 4.0.0
+  - Gulp.js
 
-      - Tendo instalado o NodeJS, instale o Gulp **globalmente** na sua máquina com o comando a baixo:
+      - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando a baixo:
 
         > npm intall -g gulp-cli
 
@@ -33,16 +31,18 @@ Simples aplicação demonstrativa de Escalonadores. Desenvolvido para a matéria
 
 #### Executando
   
-  - Após clonar este repositório, acesse o diretório *escalonadores*.
+  - Após clonar este repositório, acesse o diretório *"escalonadores"*.
 
-      > cd escalonadores
+      > cd escalonadores/
 
   - Execute o comando a baixo para instalar as dependências necessárias:
 
       > npm install
 
-  - Instala as dependências, use o comando a baixo para executar a aplicação:
+  - Instaladas as dependências, use o comando a baixo para executar a aplicação:
 
       > gulp
 
       - *Deve abrir automáticamente o seu navegador.*
+
+--------------------
