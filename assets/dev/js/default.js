@@ -110,11 +110,8 @@ function compare(jobA,jobB) {
   if (jobA.totalTime > jobB.totalTime)
     return 1;
   return 0;
-<<<<<<< HEAD:js/main.js
-=======
 }
 function sleep(milliseconds) {
 	var now = new Date().getTime();
 	while ( new Date().getTime() < now + milliseconds ){}
->>>>>>> a3ed79a5817086b4b115067fac7173c806e0966c:assets/dev/js/default.js
 }
