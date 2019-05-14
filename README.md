@@ -31,7 +31,7 @@ Escalonadores
 
 #### Executando
   
-  - Após clonar este repositório, acesse o diretório *"escalonadores"*.
+  - Após clonar o repositório, acesse o diretório *"escalonadores"*.
 
       > cd escalonadores/
 
@@ -44,5 +44,7 @@ Escalonadores
       > gulp
 
       - *Deve abrir automaticamente o seu navegador.*
+
+  - **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**. 
 
 --------------------
