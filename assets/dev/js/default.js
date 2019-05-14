@@ -1,27 +1,57 @@
 var id = 1;
 var startTimeJobs;
 var allJobs = [];
+var jobsToExecute = [];
 
 function createQueue(){
 	var newJob =  new JobStruct(id,$('#time').val());
 	allJobs.push(newJob);
+	jobsToExecute.push(newJob);
 	id++;
 	$('.table-logs').append("<li>Job " + newJob.jobId + " adicionado a fila. Tempo de execu\u00e7\u00e3o: " + newJob.totalTime +" segundos </li>");
 }
 
 function startJobs() {
 	$('.table-logs').append("<li>Iniciando execu\u00e7\u00e3o dos Jobs.</li>");
-	allJobs.sort(compare);
-	for (var i = 0; i < allJobs.length; i++) {
-		if(i == 0){
-			startTimeJobs = new Date().getTime();
+	if($('.typeOfProcess').val() == "roundRobinPreemptivo"){
+		while(jobsToExecute.length > 0){
+			var jobNow = jobsToExecute[0];
+			console.log("Job " + jobNow.jobId + " executando - P");
+			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando </li>");
+			jobPreemptivo(jobNow);
+			$('.table-logs').append("<li>Job " + jobNow.jobId + " finalizou </li>");
+			console.log("Job " + jobNow.jobId + " finalizou - P");
 		}
-		$('.table-logs').append("<li>Job " + allJobs[i].jobId + " executando </li>");
-		job(allJobs[i]);
-		$('.table-logs').append("<li>Job " + allJobs[i].jobId + " finalizou </li>");
+		for (var i = 0; i < allJobs.length; i++) {
+			jobsToExecute.push(allJobs[i]);
+		}
+	}else if($('.typeOfProcess').val() == "roundRobin"){
+		allJobs.sort(compare);
+		for (var i = 0; i < allJobs.length; i++) {
+			if(i == 0){
+				startTimeJobs = new Date().getTime();
+			}
+			$('.table-logs').append("<li>Job " + allJobs[i].jobId + " executando </li>");
+			job(allJobs[i]);
+			$('.table-logs').append("<li>Job " + allJobs[i].jobId + " finalizou </li>");
+		}
 	}
 }
-
+function jobPreemptivo(jobItem){
+	if(!jobItem.executed){
+		jobItem.totalTime = jobItem.totalTime - 1;
+		sleep(1500);
+		jobsToExecute.shift();
+		if(jobItem.totalTime <= 0){
+			jobItem.executed = true;
+			console.log("Job " + jobItem.jobId + " executou totalmente - P");
+			$('.table-logs').append("<li>Job " + jobItem.jobId + " executou totalmente. </li>");
+			
+		}else{
+			jobsToExecute.push(jobItem);
+		}
+	}
+}
 function job(jobItem){
 	console.log("Job " + jobItem.jobId + " executando");
 	sleepJob(jobItem.totalTime * 1000, jobItem);
@@ -35,9 +65,10 @@ function sleepJob(milliseconds, jobItem) {
 	jobItem.finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
 }
 
-function JobStruct(jobId, totalTime) {
+function JobStruct(jobId, totalTime, ) {
     this.jobId = jobId;
 	this.totalTime = totalTime;
+	this.executed = false;
 }
 
 function showAllJobs(){
@@ -79,4 +110,11 @@ function compare(jobA,jobB) {
   if (jobA.totalTime > jobB.totalTime)
     return 1;
   return 0;
+<<<<<<< HEAD:js/main.js
+=======
+}
+function sleep(milliseconds) {
+	var now = new Date().getTime();
+	while ( new Date().getTime() < now + milliseconds ){}
+>>>>>>> a3ed79a5817086b4b115067fac7173c806e0966c:assets/dev/js/default.js
 }
