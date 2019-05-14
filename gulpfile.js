@@ -1,10 +1,13 @@
+'use strict';
+
 const gulp  = require('gulp');
 const less  = require('gulp-less');
 const jsmin  = require('gulp-jsmin');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
-// const notify = require('gulp-notify');
+const notify = require('gulp-notify');
 const uglifycss = require('gulp-uglifycss');
+const nodemon = require('gulp-nodemon');
 const browserSync = require('browser-sync').create();
 
 let reload = browserSync.reload;
@@ -41,8 +44,13 @@ let sources = {
         ]
     },
     server: {
-        url: 'localhost',
-        port: '8088'
+        url: 'localhost:8088',
+        port: '8090',
+        serve_file: 'server.js',
+        ignore: [
+            'gulpfile.js',
+            'node_modules/'
+        ]
     }
 }
 
@@ -72,11 +80,24 @@ function style() {
         .pipe(browserSync.stream());
 }
 
+function server(done) {
+    var called = false;
+    return nodemon({
+        script: sources.server.serve_file,
+        ignore: [sources.server.ignore]
+    }).on('start', function () {
+        if (!called) {
+            called = true;
+            done();
+        }
+    })
+}
+
 function browserSyncServer() {
     browserSync.init({
-        baseDir: './',
         proxy: sources.server.url,
-        port: sources.server.port
+        port: sources.server.port,
+        notify: true
     });
 }
 
@@ -84,13 +105,18 @@ function watchFile() {
     gulp.watch(sources.watch.less, style);
     gulp.watch(sources.watch.html).on('change', reload);
     gulp.watch(sources.watch.js).on('change', reload);
+    gulp.src(sources.path.js + 'build.min.js')
+        .pipe(notify({ 
+            message: 'Gulp is Watching. Happy Coding!'
+        }));
 }
 
 exports.lib = lib;
 exports.style = style;
 exports.script = script;
+exports.server = server;
 exports.watchFile = watchFile;
 exports.browserSyncServer = browserSyncServer;
 
-// gulp.task('dev', gulp.series(style, lib, script));
-gulp.task('default', gulp.parallel(style, watchFile, browserSyncServer));
+gulp.task('dev', gulp.series(style, lib, script, server));
+gulp.task('default', gulp.parallel('dev', watchFile, browserSyncServer));
