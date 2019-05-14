@@ -21,9 +21,9 @@ Escalonadores
 
   - Gulp.js
 
-      - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando a baixo:
+      - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando abaixo:
 
-        > npm intall --global gulp-cli
+        > npm install --global gulp-cli
 
         - Verfique a versão do Gulp com o comando a baixo:
 
