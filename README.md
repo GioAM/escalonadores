@@ -11,7 +11,7 @@ Escalonadores
 
 #### Antes, é necessário ter instalado em sua máquina os seguintes requisítos:
 
-  - NodeJS
+  - NodeJS:
 
       - [Windows](https://nodejs.org/en/download/)
 
@@ -19,15 +19,15 @@ Escalonadores
 
       - [MacOS](https://nodejs.org/en/download/)
 
-  - Gulp.js
+  - Gulp.js:
 
       - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando abaixo:
 
         > npm install --global gulp-cli
 
-        - Verfique a versão do Gulp com o comando a baixo:
+  - Verfique a versão do Gulp com o comando a baixo:
 
-            > gulp -v
+        > gulp -v
 
 #### Executando
   

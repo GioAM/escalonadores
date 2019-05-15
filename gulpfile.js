@@ -17,10 +17,16 @@ let sources = {
         './assets/dev/less/reset.less',
         './assets/dev/less/default.less'
     ],
-    lib: [
-        './node_modules/jquery/dist/jquery.min.js',
-        './node_modules/chart.js/dist/Chart.min.js'
-    ],
+    lib: {
+        css: [
+            './node_modules/bootstrap/dist/css/bootstrap.min.css',
+        ],
+        js: [
+            './node_modules/jquery/dist/jquery.min.js',
+            './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+            './node_modules/chart.js/dist/Chart.min.js'
+        ]
+    }, 
     js: [
         './assets/dev/js/default.js'
     ],
@@ -54,11 +60,18 @@ let sources = {
     }
 }
 
-function lib() {
-    return gulp.src(sources.lib)
+function libScript() {
+    return gulp.src(sources.lib.js)
         .pipe(concat('lib.js'))
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest(sources.path.js));
+}
+
+function libStyle() {
+    return gulp.src(sources.lib.css)
+        .pipe(concat('lib.css'))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest(sources.path.css));
 }
 
 function script() {
@@ -111,12 +124,13 @@ function watchFile() {
         }));
 }
 
-exports.lib = lib;
+exports.libScript = libScript;
+exports.libStyle = libStyle;
 exports.style = style;
 exports.script = script;
 exports.server = server;
 exports.watchFile = watchFile;
 exports.browserSyncServer = browserSyncServer;
 
-gulp.task('dev', gulp.series(style, lib, script, server));
+gulp.task('dev', gulp.series(libStyle, style, libScript, script, server));
 gulp.task('default', gulp.parallel('dev', watchFile, browserSyncServer));
