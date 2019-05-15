@@ -8,11 +8,11 @@ function createQueue(){
 	allJobs.push(newJob);
 	jobsToExecute.push(newJob);
 	id++;
-	$('.table-logs').append("<li>Job " + newJob.jobId + " adicionado a fila. Tempo de execu\u00e7\u00e3o: " + newJob.totalTime +" segundos </li>");
+	$('.table-logs').append("<li class='list-group-item'>Job " + newJob.jobId + " adicionado a fila. Tempo de execução: " + newJob.totalTime +" segundos </li>");
 }
 
 function startJobs() {
-	$('.table-logs').append("<li>Iniciando execu\u00e7\u00e3o dos Jobs.</li>");
+	$('.table-logs').append("<li>Iniciando execução dos Jobs.</li>");
 	if($('.typeOfProcess').val() == "roundRobinPreemptivo"){
 		while(jobsToExecute.length > 0){
 			var jobNow = jobsToExecute[0];
@@ -82,7 +82,7 @@ function showAllJobs(){
 }
 
 function createChart(){
-	$('.table-logs').append("<li>Montando gr\u00e1fico.</li>");
+	$('.table-logs').append("<li>Montando gráfico.</li>");
 	var labels = [0];
 	var data = [0];
 	for (var i = 0; i < allJobs.length; i++) {
@@ -95,7 +95,7 @@ function createChart(){
 		data: {
 			labels: labels,
 			datasets: [{
-				label: 'Tempo de execu\u00e7\u00e3o',
+				label: 'Tempo de execução',
 				backgroundColor: '5f9ea0',
 				borderColor: 'r5f9ea0',
 				data: data
