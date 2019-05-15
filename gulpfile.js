@@ -20,10 +20,12 @@ let sources = {
     lib: {
         css: [
             './node_modules/bootstrap/dist/css/bootstrap.min.css',
+            './node_modules/@fortawesome/fontawesome-free/css/all.min.css'
         ],
         js: [
             './node_modules/jquery/dist/jquery.min.js',
             './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+            './node_modules/@fortawesome/fontawesome-free/js/all.min.js',
             './node_modules/chart.js/dist/Chart.min.js'
         ]
     }, 
@@ -117,7 +119,7 @@ function browserSyncServer() {
 function watchFile() {
     gulp.watch(sources.watch.less, style);
     gulp.watch(sources.watch.html).on('change', reload);
-    gulp.watch(sources.watch.js).on('change', reload);
+    gulp.watch(sources.watch.js, script).on('change', reload);
     gulp.src(sources.path.js + 'build.min.js')
         .pipe(notify({ 
             message: 'Gulp is Watching. Happy Coding!'
