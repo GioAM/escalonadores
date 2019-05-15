@@ -25,7 +25,7 @@ Escalonadores
 
         > npm install --global gulp-cli
 
-  - Verfique a versão do Gulp com o comando a baixo:
+      - Verfique a versão do Gulp com o comando a baixo:
 
         > gulp -v
 
