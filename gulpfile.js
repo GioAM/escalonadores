@@ -89,7 +89,10 @@ function style() {
         .pipe(concat('build.css'))
         // .pipe(less().on('error', less.logError))
         .pipe(less())
-        .pipe(uglifycss())
+        .pipe(uglifycss({
+            'maxLineLen': 300,
+            'uglyComments': false
+        }))
         .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest(sources.path.css))
         .pipe(browserSync.stream());
