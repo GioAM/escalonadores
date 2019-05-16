@@ -1,7 +1,7 @@
 Escalonadores
 ===============================================
 
---------------------
+-------------------- 
 
 - **Demo:** https://gioam.github.io/escalonadores
 
@@ -9,7 +9,7 @@ Escalonadores
 
 ## Executando localmente
 
-#### Antes, é necessário ter instalado em sua máquina os seguintes requisítos:
+#### Antes, é necessário ter instalado em sua máquina os seguintes requisitos:
 
   - NodeJS:
 
