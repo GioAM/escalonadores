@@ -1,3 +1,5 @@
+@import "../less/variables.less";
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0-modified | 20110126
    License: none (public domain)
@@ -36,7 +38,10 @@ footer, header, hgroup, menu, nav, section {
 }
 
 body {
-	line-height: 1;
+	color: @c-primary1;
+	background-color: @c-neutral1;
+    font: 400 16px @roboto;
+    line-height: 1;
 }
 
 ol, ul {

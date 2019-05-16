@@ -1,5 +1,31 @@
-body {
-	font-family: 'Roboto', sans-serif;
+@import "../less/variables.less";
+
+.containersch {
+    margin-right: auto;
+    margin-left: auto;
+	padding-right: 15px;
+    padding-left: 15px;
+	width: 100%;
+	
+	@media @sm {
+		max-width: 540px;
+	}
+	
+	@media @md {
+		max-width: 720px;
+	}
+	
+	@media @lg {
+		max-width: 960px;
+	}
+	
+	@media @xl {
+		max-width: 1140px;
+	}
+	
+	@media @full {
+		max-width: 1300px;
+	}
 }
 
 .scheduler-main {
@@ -113,25 +139,33 @@ body {
 	
 			
 			&:nth-child(1) .-icongithub {
-				color: #330f53;
+				color: @c-cristian;
+
+				&:hover {
+					color: @c-cristian-hover;
+				}
 			}
 			
 			&:nth-child(2) .-icongithub {
-				color: blue;
+				color: @c-giovani;
+
+				&:hover {
+					color: @c-giovani-hover;
+				}
 			}
 			
 			&:nth-child(3) .-icongithub {
-				color: violet;
-			}
+				color: @c-leticia;
 
-			&:hover .-icongithub {
-				color: black;
+				&:hover {
+					color: @c-leticia-hover;
+				}
 			}
 		}
 	}
 
 	.-cardscheduler {
-		height: 290px;
+		height: 300px;
 		overflow: auto;
 
 		.-subblockcard {
