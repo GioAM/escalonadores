@@ -8,7 +8,7 @@ function createQueue(){
 	allJobs.push(newJob);
 	jobsToExecute.push(newJob);
 	id++;
-	$('.table-logs').append("<li class='list-group-item'>Job " + newJob.jobId + " adicionado a fila. Tempo de execução: " + newJob.totalTime +" segundos </li>");
+	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Tempo de execução: <span class='-numbersecondjob'>" + newJob.totalTime +"</span> segundos </li>");
 }
 
 function startJobs() {

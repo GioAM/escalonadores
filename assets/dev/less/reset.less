@@ -137,8 +137,13 @@ a:focus {
  * Improve readability when focused and also mouse hovered in all browsers.
  */
 
+a {
+    color: #24292e;
+}
+
 a:active,
 a:hover {
+    color: #24292e;
     outline: 0;
 }
 
@@ -331,6 +336,11 @@ input,
 select,
 textarea {
     color: #222;
+    outline: none !important;
+
+    &:focus {
+        box-shadow: none !important;
+    }
 }
 
 

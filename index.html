@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Escalonamento - Sistemas Operacionais I</title>
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/scheduler.png">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
 	<link href="assets/pub/css/lib.min.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/pub/css/build.min.css" rel="stylesheet" type="text/css"/>
@@ -12,72 +13,91 @@
 <body>
 
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-12 text-center my-4">
-				<h1 class="display-4 text-uppercase">Escalonamento</h1>
 
-				<ul class="list-group list-group-flush">
-					<li>
-						<a href="https://github.com/CristianAmbrosi" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Cristian J. Ambrosi">
-							<i class="fab fa-github"></i>
-						</a>
-					</li>
-					<li>
-						<a href="https://github.com/GioAM" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Giovani Meneguel">
-							<i class="fab fa-github"></i>
-						</a>
-					</li>
-					<li>
-						<a href="https://github.com/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Leticia May">
-							<i class="fab fa-github"></i>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<div class="scheduler-main">
 
-		<div class="row mb-4">
-			<div class="col-sm-12 col-md-7">
+			<div class="row">
+				<div class="col-sm-12 text-center my-3"> <!-- Item card -->
 
-				<div class="card">
-					<div class="card-body">
-						<h3 class="card-title">Logs</h3>
-						
-						<ul class="list-group list-group-flush table-logs">
+					<h1 class="-h1title">Escalonamento</h1>
+					
+					<div class="-blocklistperson">
+						<ul class="-listghperson">
+							<li class="-itempersongit">
+								<a href="https://github.com/CristianAmbrosi" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Cristian J. Ambrosi">
+									<i class="fab fa-github -icongithub"></i>
+								</a>
+							</li>
+							<li class="-itempersongit">
+								<a href="https://github.com/GioAM" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Giovani Meneguel">
+									<i class="fab fa-github -icongithub"></i>
+								</a>
+							</li>
+							<li class="-itempersongit">
+								<a href="https://github.com/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Leticia May">
+									<i class="fab fa-github -icongithub"></i>
+								</a>
+							</li>
 						</ul>
 					</div>
-				</div>
-
-			</div>
-
-			<div class="col-sm-12 col-md-5">
-
-				<div class="card">
-					<div class="card-body">
-						<div class="inputs-app">
-							<input placeholder="Tempo de execução (em segundos)" id="time"/>
-						</div>
-						<br></br>
-						<div class="buttons-app">
-							<button onclick="showAllJobs()" class="btn btn-primary">Mostrar</button>
-							<button onclick="createQueue()" class="btn btn-primary">Adicionar a fila</button>
-							<button onclick="createChart()" class="btn btn-primary">Montar Gráfico</button>
-							<button onclick="startJobs()" class="btn btn-primary">Iniciar Jobs</button>
-							<select class="typeOfProcess" name="typeOfProcess">
-								<option value="roundRobin" selected>Round Robin</option> 
-								<option value="roundRobinPreemptivo">Round Robin Preemptivo</option>
-							</select>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 
-		</div>
+			<div class="row -flexdirectioncards mb-4">
+				<div class="col-sm-12 col-md-7"> <!-- Item card -->
 
-		<div class="row">
-			<div class="col-12">
-				<div class="chart-app">
-					<canvas id="myChart"></canvas>
+					<section class="card -cardscheduler shadow-sm bg-white rounded">
+						<div class="card-body">
+							<h3 class="-titlecards card-title text-center mb-4">Fila de Jobs</h3>
+							<ul class="-listjobsqueue table-logs"></ul>
+						</div>
+					</section>
+
+				</div>
+
+				<div class="col-sm-12 col-md-5"> <!-- Item card -->
+
+					<section class="card -cardscheduler shadow-sm bg-white rounded">
+						<div class="card-body">
+							<h3 class="-titlecards card-title text-center mb-4">Adicionar Jobs a Fila</h3>
+							<div class="-subblockcard">
+								<div class="-inputblockseconds">
+									<p class="-txtinput">Tempo de execução:</p>
+									<input class="-inputdefault form-control" placeholder="Em segundos" id="time"/>
+								</div>
+								<button onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
+							</div>
+
+							<div class="my-4 mb-4">
+								<p class="-txtinput">Selecione o tipo de Escalonamento:</p>
+								<select class="typeOfProcess custom-select" name="typeOfProcess">
+									<option value="roundRobin" selected>Round Robin</option>
+									<option value="roundRobinPreemptivo">Round Robin Preemptivo</option>
+								</select>
+							</div>
+
+							<div class="-subblockcard">
+								<button onclick="startJobs()" class="-btndefault btn btn-primary">Iniciar Jobs</button>
+								<!-- <button onclick="showAllJobs()" class="-btndefault btn btn-primary">Mostrar</button> -->
+								<button onclick="createChart()" class="-btndefault btn btn-primary">Montar Gráfico</button>
+							</div>
+						</div>
+					</section>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12"> <!-- Item card -->
+
+					<section class="card -schedulerchart my-1 shadow-sm bg-white rounded">
+						<div class="card-body">
+							<h3 class="-titlecards card-title text-center mb-4">Gráfico de tempo de execução dos Jobs</h3>
+							<canvas id="myChart"></canvas>
+						</section>
+					</section>
+
 				</div>
 			</div>
 		</div>

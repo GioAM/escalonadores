@@ -1,3 +1,144 @@
 body {
 	font-family: 'Roboto', sans-serif;
 }
+
+.scheduler-main {
+
+	.-h1title {
+		font-size: 42px;
+		font-weight: 700;
+		letter-spacing: 4px;
+		position: relative;
+		text-transform: uppercase;
+	}
+
+	.-titlecards {
+		font-size: 22px;
+		letter-spacing: 1px;
+	}
+
+	.-txtinput {
+		font-size: 16px;
+		margin-bottom: 4px;
+	}
+
+	.-smltxtdcr {
+		display: block;
+		font-style: italic;
+		margin-top: 4px;
+	}
+
+	.-inputdefault {
+		padding: 8px 10px;
+
+		&::placeholder {
+			font-size: 14px;
+		}
+	}
+
+	.-buttonadd {
+		width: 160px;
+	}
+
+	.-btndefault {
+		margin-left: 10px;
+		width: 160px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+
+	.-flexdirectioncards {
+		display: flex;
+		// flex-direction: column-reverse;
+	}
+
+	.-listjobsqueue {
+		text-align: center;
+
+		.-itemjob {
+			margin-bottom: 20px;
+	
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+		
+		.-numbersecondjob {
+			font-size: 16px;
+			font-weight: 700;
+		}
+	
+		.-numberjob {
+			border: 1px solid;
+			border-radius: 10px;
+			font-size: 16px;
+			font-weight: 700;
+			padding: 2px 3px;
+		}
+
+		.-arrowjobicon {
+			margin-right: 10px;
+			transform: rotate(90deg);
+		}
+	
+		.-minusarrowicon {
+			margin: 0 10px;
+		}
+	}
+
+	.-blocklistperson {
+		margin: 20px auto;
+		max-width: 215px;
+
+		.-listghperson {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+		}
+	
+		.-itempersongit {
+			margin-right: 10px;
+
+			.-icongithub {
+				font-size: 24px;
+				-webkit-transition: .3s ease-out;
+				transition: .3s ease-out;
+			}
+			
+			&:last-child {
+				margin-right: 0;
+			}
+	
+			
+			&:nth-child(1) .-icongithub {
+				color: #330f53;
+			}
+			
+			&:nth-child(2) .-icongithub {
+				color: blue;
+			}
+			
+			&:nth-child(3) .-icongithub {
+				color: violet;
+			}
+
+			&:hover .-icongithub {
+				color: black;
+			}
+		}
+	}
+
+	.-cardscheduler {
+		height: 290px;
+		overflow: auto;
+
+		.-subblockcard {
+			align-items: flex-end;
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+
+}
