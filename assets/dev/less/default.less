@@ -31,11 +31,15 @@
 .scheduler-main {
 
 	.-h1title {
-		font-size: 42px;
+		font-size: 28px;
 		font-weight: 700;
 		letter-spacing: 4px;
 		position: relative;
 		text-transform: uppercase;
+
+		@media @sm {
+			font-size: 42px;
+		}
 	}
 
 	.-titlecards {
@@ -63,28 +67,45 @@
 	}
 
 	.-buttonadd {
-		width: 160px;
+		width: 100%;
+
+		@media @sm {
+			width: 160px;
+		}
 	}
 
 	.-btndefault {
-		margin-left: 10px;
-		width: 160px;
+		margin-top: 1.5rem;
+		margin-left: 0;
+		width: 100%;
+
+		@media @sm {
+			margin-top: 0;
+			margin-left: 10px;
+			width: 160px;
+		}
 
 		&:first-child {
+			margin-top: 0;
 			margin-left: 0;
 		}
 	}
 
 	.-flexdirectioncards {
 		display: flex;
-		// flex-direction: column-reverse;
+		flex-direction: column-reverse;
+
+		@media @lg {
+			flex-direction: initial;
+		}
 	}
 
 	.-listjobsqueue {
 		text-align: center;
 
 		.-itemjob {
-			margin-bottom: 20px;
+			line-height: 1.4;
+			margin-bottom: 15px;
 	
 			&:last-child {
 				margin-bottom: 0;
@@ -165,14 +186,50 @@
 	}
 
 	.-cardscheduler {
-		height: 300px;
+		height: 425px;
 		overflow: auto;
+		margin-bottom: 1.5rem;
+
+		@media @sm {
+			height: 300px;
+		}
 
 		.-subblockcard {
 			align-items: flex-end;
 			display: flex;
+			flex-wrap: wrap;
 			justify-content: space-between;
+
+			@media @sm {
+				flex-wrap: nowrap;
+			}
+		}
+
+		.-inputblockseconds {
+			flex: 1;
+			max-width: 100%;
+			margin-bottom: 1.5rem;
+
+			
+			@media @sm {
+				max-width: 250px;
+				margin-bottom: 0;
+			}
+			
+			@media @lg {
+				max-width: 163px;
+			}
 		}
 	}
+
+	.-schscroll::-webkit-scrollbar {
+		width: 6px;
+		cursor: pointer;
+	}
+
+	.-schscroll::-webkit-scrollbar-thumb {
+		background: rgba(0, 0, 0, 0.5);
+		border-radius: 4px;
+	  }
 
 }
