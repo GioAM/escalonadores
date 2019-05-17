@@ -1,18 +1,28 @@
-var id = 1;
-var startTimeJobs;
-var allJobs = [];
-var jobsToExecute = [];
+let id = 1;
+let startTimeJobs;
+let allJobs = [];
+let jobsToExecute = [];
+let messages = {
+	executeJobs: 'Iniciando execução dos Jobs'
+}
 
 function createQueue(){
-	var newJob =  new JobStruct(id,$('#time').val());
-	allJobs.push(newJob);
-	jobsToExecute.push(newJob);
+    let newJob =  new JobStruct(id,$('#time').val());
+    allJobs.push(newJob);
+    jobsToExecute.push(newJob);
 	id++;
-	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Tempo de execução: <span class='-numbersecondjob'>" + newJob.totalTime +"</span> segundo(s) </li>");
+	$('.table-logs').append(
+		`<li class="-itemjob">
+		    <i class="fas fa-level-up-alt -arrowjobicon"></i>
+			Job <span class="-numberjob">${newJob.jobId}</span> adicionado a fila
+			<i class="fas fa-minus -minusarrowicon"></i>
+			Tempo de execução: <span class="-numbersecondjob">${newJob.totalTime}</span> segundo(s)
+        </li>`
+	);
 }
 
 function startJobs() {
-	$('.table-logs').append("<li>Iniciando execução dos Jobs.</li>");
+	toast(messages.executeJobs);
 	if($('.typeOfProcess').val() == "roundRobinPreemptivo"){
 		while(jobsToExecute.length > 0){
 			var jobNow = jobsToExecute[0];
@@ -114,4 +124,24 @@ function compare(jobA,jobB) {
 function sleep(milliseconds) {
 	var now = new Date().getTime();
 	while ( new Date().getTime() < now + milliseconds ){}
+}
+
+function toast(msg) {
+	$('#toast-place').append(`
+		<div role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" class="toast" data-delay="1500">
+			<div class="toast-header">
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="toast-body">
+				<span>${msg}</span>
+			</div>
+		</div>
+	`);
+
+	$('.toast').toast('show');
+	$('.toast').on('hidden.bs.toast', e => {
+		$(e.currentTarget).remove();
+	});
 }
