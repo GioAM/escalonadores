@@ -30,7 +30,8 @@ let sources = {
         ]
     }, 
     js: [
-        './assets/dev/js/default.js'
+        './assets/dev/js/default.js',
+        './assets/dev/js/custom.js'
     ],
     watch: {
         less: [
@@ -99,7 +100,7 @@ function style() {
 }
 
 function server(done) {
-    var called = false;
+    let called = false;
     return nodemon({
         script: sources.server.server_file,
         ignore: [sources.server.ignore]
