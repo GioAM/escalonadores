@@ -14,10 +14,10 @@ function createQueue(){
 	$('.table-logs').append(
 		`<li class="-itemjob">
 		    <i class="fas fa-level-up-alt -arrowjobicon"></i>
-			Job <span class="-numberjob">${newJob.jobId}</span> adicionado a fila
-			<i class="fas fa-minus -minusarrowicon"></i>
-			Tempo de execução: <span class="-numbersecondjob">${newJob.totalTime}</span> segundo(s)
-        </li>`
+				Job <span class="-numberjob">${newJob.jobId}</span> adicionado a fila
+				<i class="fas fa-minus -minusarrowicon"></i>
+				Tempo de execução: <span class="-numbersecondjob">${newJob.totalTime}</span> segundo(s)
+      </li>`
 	);
 }
 
@@ -126,16 +126,14 @@ function sleep(milliseconds) {
 	while ( new Date().getTime() < now + milliseconds ){}
 }
 
-function toast(msg) {
+function toast(msg, txtcolor = null) {
 	$('#toast-place').append(`
 		<div role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" class="toast" data-delay="1500">
-			<div class="toast-header">
-				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+			<div class="toast-body ${txtcolor}">
+				<span class="-toastmsg">${msg}</span>
+				<button type="button" class="close" data-dismiss="toast" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-			</div>
-			<div class="toast-body">
-				<span>${msg}</span>
 			</div>
 		</div>
 	`);
