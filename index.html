@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Escalonamento - Sistemas Operacionais I</title>
 	<link rel="icon" type="image/png" sizes="16x16" href="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
 	<link href="assets/pub/css/lib.min.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/pub/css/build.min.css" rel="stylesheet" type="text/css"/>
@@ -20,7 +21,7 @@
 				<div class="col-sm-12 text-center my-5"> <!-- Item card -->
 
 					<h1 class="-h1title">Escalonamento</h1>
-					
+
 					<div class="-blocklistperson">
 						<ul class="-listghperson">
 							<li class="-itempersongit">
@@ -40,7 +41,7 @@
 							</li>
 						</ul>
 					</div>
-					
+
 				</div>
 			</div>
 
@@ -74,6 +75,7 @@
 								<select class="typeOfProcess custom-select" name="typeOfProcess">
 									<option value="roundRobin" selected>Round Robin</option>
 									<option value="roundRobinPreemptivo">Round Robin Preemptivo</option>
+									<option value="roundRobinPriority">Prioritário</option>
 								</select>
 							</div>
 
@@ -94,7 +96,7 @@
 					<section class="card -schedulerchart shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Gráfico de tempo de execução dos Jobs</h3>
-							<canvas id="myChart"></canvas>
+							<div id="chartTime" style="height: 300px;"></div>
 						</section>
 					</section>
 

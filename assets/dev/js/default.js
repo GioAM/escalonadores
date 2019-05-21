@@ -1,117 +1,123 @@
 var id = 1;
 var startTimeJobs;
-var allJobs = [];
 var jobsToExecute = [];
+var chartData = [];
+
+function JobStruct(jobId, totalTime, priority) {
+	this.jobId = jobId;
+	this.totalTime = totalTime;
+	this.executed = false;
+	this.priority = priority;
+}
+
+function TimeExecution(jobId, startTime, finishTime) {
+	this.jobId = jobId;
+	this.startTime = startTime;
+	this.finishTime = finishTime;
+}
 
 function createQueue(){
 	var newJob =  new JobStruct(id,$('#time').val());
-	allJobs.push(newJob);
 	jobsToExecute.push(newJob);
 	id++;
 	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Tempo de execução: <span class='-numbersecondjob'>" + newJob.totalTime +"</span> segundo(s) </li>");
 }
 
 function startJobs() {
+	chartData = [];
 	$('.table-logs').append("<li>Iniciando execução dos Jobs.</li>");
+	startTimeJobs = new Date().getTime();
 	if($('.typeOfProcess').val() == "roundRobinPreemptivo"){
 		while(jobsToExecute.length > 0){
 			var jobNow = jobsToExecute[0];
-			console.log("Job " + jobNow.jobId + " executando - P");
-			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando </li>");
+			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando uma parte</li>");
 			jobPreemptivo(jobNow);
-			$('.table-logs').append("<li>Job " + jobNow.jobId + " finalizou </li>");
-			console.log("Job " + jobNow.jobId + " finalizou - P");
-		}
-		for (var i = 0; i < allJobs.length; i++) {
-			jobsToExecute.push(allJobs[i]);
 		}
 	}else if($('.typeOfProcess').val() == "roundRobin"){
-		allJobs.sort(compare);
-		for (var i = 0; i < allJobs.length; i++) {
-			if(i == 0){
-				startTimeJobs = new Date().getTime();
-			}
-			$('.table-logs').append("<li>Job " + allJobs[i].jobId + " executando </li>");
-			job(allJobs[i]);
-			$('.table-logs').append("<li>Job " + allJobs[i].jobId + " finalizou </li>");
+		jobsToExecute.sort(compareTime);
+		for (var i = 0; i < jobsToExecute.length; i++) {
+			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
+			jobRoundRobin(jobsToExecute[i]);
+			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
+		}
+	}else if($('.typeOfProcess').val() == "roundRobinPriority"){
+		jobsToExecute.sort(comparePriority);
+		for (var i = 0; i < jobsToExecute.length; i++) {
+			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
+			jobRoundRobin(jobsToExecute[i]);
+			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
 	}
+	jobsToExecute = [];
 }
+
 function jobPreemptivo(jobItem){
 	if(!jobItem.executed){
 		jobItem.totalTime = jobItem.totalTime - 1;
-		sleep(1500);
+		var now = new Date().getTime();
+		var startTime = (now - startTimeJobs) / 1000;
+		sleep(1000);
+		var finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
+		var jobExecution =  new TimeExecution(jobItem.jobId,startTime,finishTime);
+		chartData.push(jobExecution);
 		jobsToExecute.shift();
 		if(jobItem.totalTime <= 0){
 			jobItem.executed = true;
-			console.log("Job " + jobItem.jobId + " executou totalmente - P");
 			$('.table-logs').append("<li>Job " + jobItem.jobId + " executou totalmente. </li>");
-			
 		}else{
 			jobsToExecute.push(jobItem);
 		}
 	}
 }
-function job(jobItem){
-	console.log("Job " + jobItem.jobId + " executando");
-	sleepJob(jobItem.totalTime * 1000, jobItem);
-	console.log("Job " + jobItem.jobId + " finalizou ");
-}
 
-function sleepJob(milliseconds, jobItem) {
+function jobRoundRobin(jobItem){
 	var now = new Date().getTime();
-	jobItem.startTime = (now - startTimeJobs) / 1000;
-	while ( new Date().getTime() < now + milliseconds ){}
-	jobItem.finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
-}
-
-function JobStruct(jobId, totalTime, ) {
-    this.jobId = jobId;
-	this.totalTime = totalTime;
-	this.executed = false;
-}
-
-function showAllJobs(){
-	console.log(allJobs);
-	for (var i = 0; i < allJobs.length; i++) {
-		console.log("jobId: " + allJobs[i].jobId);
-		console.log("totalTime: " + allJobs[i].totalTime);
-		console.log("startTime: " + allJobs[i].startTime);
-		console.log("finishTime: " + allJobs[i].finishTime);
-	}
+	var startTime = (now - startTimeJobs) / 1000;
+	sleep(jobItem.totalTime * 1000);
+	var finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
+	var jobExecution =  new TimeExecution(jobItem.jobId,startTime,finishTime);
+	chartData.push(jobExecution);
 }
 
 function createChart(){
 	$('.table-logs').append("<li>Montando gráfico.</li>");
-	var labels = [0];
-	var data = [0];
-	for (var i = 0; i < allJobs.length; i++) {
-		labels.push("Job " + allJobs[i].jobId);
-		data.push(allJobs[i].finishTime);
-	}
-	var ctx = document.getElementById('myChart').getContext('2d');
-	var myBarChart = new Chart(ctx, {
-		type: 'horizontalBar',
-		data: {
-			labels: labels,
-			datasets: [{
-				label: 'Tempo de execução',
-				backgroundColor: '5f9ea0',
-				borderColor: 'r5f9ea0',
-				data: data
-			}]
-		},
-		options: {}
-	});
+	google.charts.load("current", {packages:["timeline"]});
+	google.charts.setOnLoadCallback(drawChart);
 }
-function compare(jobA,jobB) {
+
+function compareTime(jobA,jobB) {
   if (jobA.totalTime < jobB.totalTime)
      return -1;
   if (jobA.totalTime > jobB.totalTime)
     return 1;
   return 0;
 }
+
+function comparePriority(jobA,jobB) {
+  if (jobA.priority < jobB.priority)
+     return -1;
+  if (jobA.priority > jobB.priority)
+    return 1;
+  return 0;
+}
+
 function sleep(milliseconds) {
 	var now = new Date().getTime();
 	while ( new Date().getTime() < now + milliseconds ){}
 }
+
+function drawChart() {
+    var container = document.getElementById('chartTime');
+    var chart = new google.visualization.Timeline(container);
+    var dataTable = new google.visualization.DataTable();
+    dataTable.addColumn({ type: 'string', id: 'Job' });
+    dataTable.addColumn({ type: 'date', id: 'Start' });
+    dataTable.addColumn({ type: 'date', id: 'End' });
+		for (var i = 0; i < chartData.length; i++) {
+			dataTable.addRow([ 'Job ' +  chartData[i].jobId,  new Date(0,0,0,0,0, chartData[i].startTime ),  new Date(0,0,0,0,0,chartData[i].finishTime) ]);
+		}
+    var options = {
+      timeline: { singleColor: '#007bff' },
+    };
+    chart.draw(dataTable, options);
+  }
