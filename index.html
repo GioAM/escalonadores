@@ -64,8 +64,10 @@
 							<h3 class="-titlecards card-title text-center mb-4">Adicionar Jobs a Fila</h3>
 							<div class="-subblockcard">
 								<div class="-inputblockseconds">
-									<p class="-txtinput">Tempo de execução:</p>
-									<input class="-inputdefault form-control" placeholder="Em segundos" id="time"/>
+									<p class="-txtinput">Total de execução:</p>
+									<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="clocks"/>
+									<p class="-txtinput">time slice:</p>
+									<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="timeSlice"/>
 								</div>
 								<button onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
 							</div>
@@ -73,12 +75,22 @@
 							<div class="my-4 mb-4">
 								<p class="-txtinput">Selecione o tipo de Escalonamento:</p>
 								<select class="typeOfProcess custom-select" name="typeOfProcess">
-									<option value="roundRobin" selected>Round Robin</option>
-									<option value="roundRobinPreemptivo">Round Robin Preemptivo</option>
-									<option value="roundRobinPriority">Prioritário</option>
+									<option value="FIFO" selected>FIRST-IN FIRST-OUT (FIFO)</option>
+									<option value="SJF">SHORSTEST-JOB-FIRST (SJF)</option>
+									<option value="RRS">ROUND ROBIN SCHEDULE</option>
+									<option value="PRIORITY">POR PRIORIDADES</option>
 								</select>
 							</div>
-
+							<div class="my-4 mb-4">
+								<p class="-txtinput">Selecione a prioridade:</p>
+								<select class="prioritySelect custom-select" name="prioritySelect">
+									<option value="5">HIGHEST</option>
+									<option value="4">HIGH</option>
+									<option value="3" selected>MEDIUM</option>
+									<option value="2">LOW</option>
+									<option value="1">LOWEST</option>
+								</select>
+							</div>
 							<div class="-subblockcard">
 								<button onclick="startJobs()" class="-btndefault btn btn-primary">Iniciar Jobs</button>
 								<!-- <button onclick="showAllJobs()" class="-btndefault btn btn-primary">Mostrar</button> -->

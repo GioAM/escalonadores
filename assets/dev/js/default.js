@@ -2,10 +2,11 @@ var id = 1;
 var startTimeJobs;
 var jobsToExecute = [];
 var chartData = [];
+var timeSlice;
 
-function JobStruct(jobId, totalTime, priority) {
+function JobStruct(jobId, totalClocks, priority) {
 	this.jobId = jobId;
-	this.totalTime = totalTime;
+	this.totalClocks = totalClocks;
 	this.executed = false;
 	this.priority = priority;
 }
@@ -17,31 +18,38 @@ function TimeExecution(jobId, startTime, finishTime) {
 }
 
 function createQueue(){
-	var newJob =  new JobStruct(id,$('#time').val());
+	var newJob =  new JobStruct(id,$('#clocks').val(),$('.prioritySelect').val());
 	jobsToExecute.push(newJob);
 	id++;
-	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Tempo de execução: <span class='-numbersecondjob'>" + newJob.totalTime +"</span> segundo(s) </li>");
+	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Total de execução: <span class='-numbersecondjob'>" + newJob.totalClocks +"</span> segundo(s) </li>");
 }
 
 function startJobs() {
 	chartData = [];
-	$('.table-logs').append("<li>Iniciando execução dos Jobs.</li>");
+	$('.table-logs').append("<li>Iniciando execução dos Jobs." + $('.typeOfProcess').val() +"</li>");
 	startTimeJobs = new Date().getTime();
-	if($('.typeOfProcess').val() == "roundRobinPreemptivo"){
+	timeSlice = $('#timeSlice').val();
+	if($('.typeOfProcess').val() == "RRS"){
 		while(jobsToExecute.length > 0){
 			var jobNow = jobsToExecute[0];
 			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando uma parte</li>");
 			jobPreemptivo(jobNow);
 		}
-	}else if($('.typeOfProcess').val() == "roundRobin"){
+	}else if($('.typeOfProcess').val() == "SJF"){
 		jobsToExecute.sort(compareTime);
 		for (var i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
-	}else if($('.typeOfProcess').val() == "roundRobinPriority"){
+	}else if($('.typeOfProcess').val() == "PRIORITY"){
 		jobsToExecute.sort(comparePriority);
+		for (var i = 0; i < jobsToExecute.length; i++) {
+			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
+			jobRoundRobin(jobsToExecute[i]);
+			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
+		}
+	}else if($('.typeOfProcess').val() == "FIFO"){
 		for (var i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
@@ -53,7 +61,7 @@ function startJobs() {
 
 function jobPreemptivo(jobItem){
 	if(!jobItem.executed){
-		jobItem.totalTime = jobItem.totalTime - 1;
+		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 		var now = new Date().getTime();
 		var startTime = (now - startTimeJobs) / 1000;
 		sleep(1000);
@@ -61,7 +69,7 @@ function jobPreemptivo(jobItem){
 		var jobExecution =  new TimeExecution(jobItem.jobId,startTime,finishTime);
 		chartData.push(jobExecution);
 		jobsToExecute.shift();
-		if(jobItem.totalTime <= 0){
+		if(jobItem.totalClocks <= 0){
 			jobItem.executed = true;
 			$('.table-logs').append("<li>Job " + jobItem.jobId + " executou totalmente. </li>");
 		}else{
@@ -73,7 +81,11 @@ function jobPreemptivo(jobItem){
 function jobRoundRobin(jobItem){
 	var now = new Date().getTime();
 	var startTime = (now - startTimeJobs) / 1000;
-	sleep(jobItem.totalTime * 1000);
+	while(jobItem.totalClocks > 0){
+		console.log(jobItem.totalClocks);
+		sleep(1000);
+		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
+	}
 	var finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
 	var jobExecution =  new TimeExecution(jobItem.jobId,startTime,finishTime);
 	chartData.push(jobExecution);
@@ -86,9 +98,9 @@ function createChart(){
 }
 
 function compareTime(jobA,jobB) {
-  if (jobA.totalTime < jobB.totalTime)
+  if (jobA.totalClocks < jobB.totalClocks)
      return -1;
-  if (jobA.totalTime > jobB.totalTime)
+  if (jobA.totalClocks > jobB.totalClocks)
     return 1;
   return 0;
 }
