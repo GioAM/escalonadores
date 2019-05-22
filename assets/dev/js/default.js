@@ -18,6 +18,10 @@ function TimeExecution(jobId, startTime, finishTime) {
 }
 
 function createQueue(){
+	if($('#clocks').val() == null || $('#clocks').val() == ""){
+		alert("Adicione o valor total de clocks para o job");
+		return;
+	}
 	var newJob =  new JobStruct(id,$('#clocks').val(),$('.prioritySelect').val());
 	jobsToExecute.push(newJob);
 	id++;
@@ -25,6 +29,14 @@ function createQueue(){
 }
 
 function startJobs() {
+	if(jobsToExecute.length <= 0  || jobsToExecute == null){
+		alert("Adicione Jobs para a execução!");
+		return;
+	}
+	if($('#timeSlice').val() == null || $('#timeSlice').val() == ""){
+		alert("Adicione o valor do time Slice");
+		return;
+	}
 	chartData = [];
 	$('.table-logs').append("<li>Iniciando execução dos Jobs." + $('.typeOfProcess').val() +"</li>");
 	startTimeJobs = new Date().getTime();
@@ -60,6 +72,12 @@ function startJobs() {
 }
 
 function jobPreemptivo(jobItem){
+	if(jobItem.totalClocks / timeSlice > 30){
+		alert("Sistema matou o Job " + jobItem.jobId + " pois é muito grande podendo danificar o sistema.")
+		$('.table-logs').append("<li>Sistema matou o Job " + jobItem.jobId + " </li>");
+		jobsToExecute.shift();
+		return;
+	}
 	if(!jobItem.executed){
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 		var now = new Date().getTime();
@@ -79,6 +97,11 @@ function jobPreemptivo(jobItem){
 }
 
 function jobRoundRobin(jobItem){
+	if(jobItem.totalClocks / timeSlice > 30){
+		alert("Sistema matou o Job " + jobItem.jobId + " pois é muito grande podendo danificar o sistema.");
+		$('.table-logs').append("<li>Sistema matou o Job " + jobItem.jobId + " </li>");
+		return;
+	}
 	var now = new Date().getTime();
 	var startTime = (now - startTimeJobs) / 1000;
 	while(jobItem.totalClocks > 0){
@@ -92,6 +115,10 @@ function jobRoundRobin(jobItem){
 }
 
 function createChart(){
+	if(chartData.length <= 0  || chartData == null){
+		alert("Execute uma operação de Escalonamento antes de montar o gráfico!");
+		return;
+	}
 	$('.table-logs').append("<li>Montando gráfico.</li>");
 	google.charts.load("current", {packages:["timeline"]});
 	google.charts.setOnLoadCallback(drawChart);
