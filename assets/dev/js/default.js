@@ -1,8 +1,13 @@
+'use strict';
+
 var id = 1;
 var startTimeJobs;
 var jobsToExecute = [];
 var chartData = [];
 var timeSlice;
+let messages = {
+	executeJobs: 'Iniciando execução dos Jobs'
+}
 
 function JobStruct(jobId, totalClocks, priority) {
 	this.jobId = jobId;
@@ -25,10 +30,18 @@ function createQueue(){
 	var newJob =  new JobStruct(id,$('#clocks').val(),$('.prioritySelect').val());
 	jobsToExecute.push(newJob);
 	id++;
-	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Total de execução: <span class='-numbersecondjob'>" + newJob.totalClocks +"</span> segundo(s) </li>");
+	$('.table-logs').append(`
+		<li class="-itemjob">
+			<i class="fas fa-level-up-alt -arrowjobicon"></i>
+			Job <span class="-numberjob">${newJob.jobId}</span> adicionado a fila
+			<i class="fas fa-minus -minusarrowicon"></i>
+			Tempo de execução: <span class="-numbersecondjob">${newJob.totalClocks}</span> segundo(s)
+		</li>
+	`);
 }
 
 function startJobs() {
+	toast(messages.executeJobs);
 	if(jobsToExecute.length <= 0  || jobsToExecute == null){
 		alert("Adicione Jobs para a execução!");
 		return;
@@ -159,4 +172,22 @@ function drawChart() {
       timeline: { singleColor: '#007bff' },
     };
     chart.draw(dataTable, options);
-  }
+	}
+	
+function toast(msg, txtcolor = null) {
+	$('#toast-place').append(`
+		<div role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" class="toast" data-delay="1500">
+			<div class="toast-body ${txtcolor}">
+				<span class="-toastmsg">${msg}</span>
+				<button type="button" class="close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+	`);
+
+	$('.toast').toast('show');
+	$('.toast').on('hidden.bs.toast', e => {
+		$(e.currentTarget).remove();
+	});
+}
