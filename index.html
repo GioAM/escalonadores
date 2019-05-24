@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Escalonamento - Sistemas Operacionais I</title>
 	<link rel="icon" type="image/png" sizes="16x16" href="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png">
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
 	<link href="assets/pub/css/lib.min.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/pub/css/build.min.css" rel="stylesheet" type="text/css"/>
@@ -13,14 +14,17 @@
 <body>
 
 	<div class="containersch">
-
 		<div class="scheduler-main">
+
+			<div aria-live="" aria-atomic="true" class="position-relative">
+				<div class="position-absolute" id="toast-place"></div>
+			</div>
 
 			<div class="row">
 				<div class="col-sm-12 text-center my-5"> <!-- Item card -->
 
 					<h1 class="-h1title">Escalonamento</h1>
-					
+
 					<div class="-blocklistperson">
 						<ul class="-listghperson">
 							<li class="-itempersongit">
@@ -34,13 +38,13 @@
 								</a>
 							</li>
 							<li class="-itempersongit">
-								<a href="https://github.com/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Leticia May">
+								<a href="https://github.com/leticiapmay99" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Leticia May">
 									<i class="fab fa-github -icongithub"></i>
 								</a>
 							</li>
 						</ul>
 					</div>
-					
+
 				</div>
 			</div>
 
@@ -63,20 +67,33 @@
 							<h3 class="-titlecards card-title text-center mb-4">Adicionar Jobs a Fila</h3>
 							<div class="-subblockcard">
 								<div class="-inputblockseconds">
-									<p class="-txtinput">Tempo de execução:</p>
-									<input class="-inputdefault form-control" placeholder="Em segundos" id="time"/>
+									<p class="-txtinput">Total de execução:</p>
+									<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="clocks"/>
+									<p class="-txtinput">time slice:</p>
+									<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="timeSlice"/>
 								</div>
-								<button onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
+								<button id="add-toast" onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
 							</div>
 
 							<div class="my-4 mb-4">
 								<p class="-txtinput">Selecione o tipo de Escalonamento:</p>
 								<select class="typeOfProcess custom-select" name="typeOfProcess">
-									<option value="roundRobin" selected>Round Robin</option>
-									<option value="roundRobinPreemptivo">Round Robin Preemptivo</option>
+									<option value="FIFO" selected>FIRST-IN FIRST-OUT (FIFO)</option>
+									<option value="SJF">SHORSTEST-JOB-FIRST (SJF)</option>
+									<option value="RRS">ROUND ROBIN SCHEDULE</option>
+									<option value="PRIORITY">POR PRIORIDADES</option>
 								</select>
 							</div>
-
+							<div class="my-4 mb-4">
+								<p class="-txtinput">Selecione a prioridade:</p>
+								<select class="prioritySelect custom-select" name="prioritySelect">
+									<option value="5">HIGHEST</option>
+									<option value="4">HIGH</option>
+									<option value="3" selected>MEDIUM</option>
+									<option value="2">LOW</option>
+									<option value="1">LOWEST</option>
+								</select>
+							</div>
 							<div class="-subblockcard">
 								<button onclick="startJobs()" class="-btndefault btn btn-primary">Iniciar Jobs</button>
 								<!-- <button onclick="showAllJobs()" class="-btndefault btn btn-primary">Mostrar</button> -->
@@ -94,23 +111,17 @@
 					<section class="card -schedulerchart shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Gráfico de tempo de execução dos Jobs</h3>
-							<canvas id="myChart"></canvas>
+							<div id="chartTime" style="height: 300px;"></div>
 						</section>
 					</section>
 
 				</div>
 			</div>
+			
 		</div>
-
 	</div>
 
 	<script src="assets/pub/js/lib.min.js"></script>
 	<script src="assets/pub/js/build.min.js"></script>
-
-	<script>
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
-			})
-	</script>
 </body>
 </html>
