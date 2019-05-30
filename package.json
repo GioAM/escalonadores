@@ -23,7 +23,7 @@
     "@fortawesome/fontawesome-free": "^5.8.2",
     "bootstrap": "^4.3.1",
     "browser-sync": "^2.26.5",
-    "chart.js": "^2.8.0",
+    "google-charts": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-concat": "^2.6.1",
     "gulp-jsmin": "^0.1.5",
@@ -35,6 +35,6 @@
     "jquery": "^3.4.1"
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.17.0"
   }
 }

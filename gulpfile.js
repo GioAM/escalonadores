@@ -25,8 +25,8 @@ let sources = {
         js: [
             './node_modules/jquery/dist/jquery.min.js',
             './node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
-            './node_modules/@fortawesome/fontawesome-free/js/all.min.js',
-            './node_modules/chart.js/dist/Chart.min.js'
+            './node_modules/@fortawesome/fontawesome-free/js/all.min.js'
+            // './node_modules/google-charts/dist/googleCharts.min.js'
         ]
     }, 
     js: [
