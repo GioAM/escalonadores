@@ -30,7 +30,14 @@ function createQueue(){
 	var newJob =  new JobStruct(id,$('#clocks').val(),$('.prioritySelect').val());
 	jobsToExecute.push(newJob);
 	id++;
-	$('.table-logs').append("<li class='-itemjob'><i class='fas fa-level-up-alt -arrowjobicon'></i>Job <span class='-numberjob'>" + newJob.jobId + "</span> adicionado a fila <i class='fas fa-minus -minusarrowicon'></i> Total de execução: <span class='-numbersecondjob'>" + newJob.totalClocks +"</span> Hz </li>");
+	$('.table-logs').append(`
+		<li class="-itemjob">
+			<i class="fas fa-level-up-alt -arrowjobicon"></i>
+			Job <span class="-numberjob">${newJob.jobId}</span> adicionado a fila
+			<i class="fas fa-minus -minusarrowicon"></i>
+			Total de execução: <span class="-numbersecondjob">${newJob.totalClocks}</span> Hz
+		</li>
+	`);
 }
 
 function startJobs() {

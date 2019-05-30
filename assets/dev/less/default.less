@@ -93,8 +93,12 @@
 		width: 100%;
 
 		@media @sm {
-			width: 160px;
+			width: 185px;
 		}
+	}
+
+	.-btninit {
+		width: 100%;
 	}
 
 	.-btndefault {
@@ -105,7 +109,7 @@
 		@media @sm {
 			margin-top: 0;
 			margin-left: 10px;
-			width: 160px;
+			width: 185px;
 		}
 
 		&:first-child {
@@ -209,16 +213,37 @@
 	}
 
 	.-cardscheduler {
-		height: 425px;
+		height: 650px;
 		overflow: auto;
 		margin-bottom: 1.5rem;
 
 		@media @sm {
-			height: 300px;
+			height: 525px;
 		}
 
 		.-subblockcard {
-			align-items: flex-end;
+			align-items: flex-start;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+
+			@media @sm {
+				flex-wrap: nowrap;
+			}
+		}
+
+		.-blockinputone {
+			margin-right: 0;
+			width: 100%;
+			
+			@media @sm {
+				margin-right: 20px;
+				width: 50%;
+			}
+		}
+
+		.-subblockcardcenter {
+			align-items: center;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -240,8 +265,16 @@
 			}
 			
 			@media @lg {
-				max-width: 163px;
+				max-width: 185px;
 			}
+		}
+	}
+
+	.-cardschedulermobile {
+		height: 400px;
+
+		@media @sm {
+			height: 525px;
 		}
 	}
 
@@ -253,6 +286,10 @@
 	.-schscroll::-webkit-scrollbar-thumb {
 		background: rgba(0, 0, 0, 0.5);
 		border-radius: 4px;
-	  }
+	}
+
+	.-maringtopnegative {
+		margin-top: -25px;
+	}
 
 }

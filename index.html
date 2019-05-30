@@ -48,10 +48,10 @@
 				</div>
 			</div>
 
-			<div class="row -flexdirectioncards">
+			<div class="row -flexdirectioncards -maringtopnegative">
 				<div class="col-sm-12 col-md-12 col-lg-7"> <!-- Item card -->
 
-					<section class="card -cardscheduler -schscroll shadow-sm bg-white rounded">
+					<section class="card -cardscheduler -cardschedulermobile -schscroll shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Fila de Jobs</h3>
 							<ul class="-listjobsqueue table-logs"></ul>
@@ -65,14 +65,22 @@
 					<section class="card -cardscheduler shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Adicionar Jobs a Fila</h3>
-							<div class="-subblockcard">
-								<div class="-inputblockseconds">
-									<p class="-txtinput">Total de execução:</p>
-									<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="clocks"/>
-									<p class="-txtinput">Time Slice:</p>
-									<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="timeSlice"/>
+							<div>
+								<div class="-subblockcardcenter mb-4">
+									<div class="-blockinputone">
+										<div class="-inputblockseconds mb-4">
+											<p class="-txtinput">Total de execução:</p>
+											<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="clocks"/>
+										</div>
+		
+										<div class="-inputblockseconds">
+											<p class="-txtinput">Time Slice:</p>
+											<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="timeSlice"/>
+										</div>
+									</div>
+									<button id="add-toast" onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
 								</div>
-								<button id="add-toast" onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
+								<button onclick="startJobs()" class="-btninit btn btn-primary">Iniciar Jobs</button>
 							</div>
 
 							<div class="my-4 mb-4">
@@ -95,9 +103,8 @@
 								</select>
 							</div>
 							<div class="-subblockcard">
-								<button onclick="startJobs()" class="-btndefault btn btn-primary">Iniciar Jobs</button>
-								<!-- <button onclick="showAllJobs()" class="-btndefault btn btn-primary">Mostrar</button> -->
 								<button onclick="createChart()" class="-btndefault btn btn-primary">Montar Gráfico</button>
+								<button class="-btndefault btn btn-primary">Limpar</button>
 							</div>
 						</div>
 					</section>
