@@ -6,23 +6,23 @@
 	padding-right: 15px;
     padding-left: 15px;
 	width: 100%;
-	
+
 	@media @sm {
 		max-width: 540px;
 	}
-	
+
 	@media @md {
 		max-width: 720px;
 	}
-	
+
 	@media @lg {
 		max-width: 960px;
 	}
-	
+
 	@media @xl {
 		max-width: 1140px;
 	}
-	
+
 	@media @full {
 		max-width: 1300px;
 	}
@@ -133,17 +133,17 @@
 		.-itemjob {
 			line-height: 1.4;
 			margin-bottom: 15px;
-	
+
 			&:last-child {
 				margin-bottom: 0;
 			}
 		}
-		
+
 		.-numbersecondjob {
 			font-size: 16px;
 			font-weight: 700;
 		}
-	
+
 		.-numberjob {
 			border: 1px solid;
 			border-radius: 10px;
@@ -156,7 +156,7 @@
 			margin-right: 10px;
 			transform: rotate(90deg);
 		}
-	
+
 		.-minusarrowicon {
 			margin: 0 10px;
 		}
@@ -171,7 +171,7 @@
 			display: flex;
 			justify-content: space-between;
 		}
-	
+
 		.-itempersongit {
 			margin-right: 10px;
 
@@ -180,12 +180,12 @@
 				-webkit-transition: .3s ease-out;
 				transition: .3s ease-out;
 			}
-			
+
 			&:last-child {
 				margin-right: 0;
 			}
-	
-			
+
+
 			&:nth-child(1) .-icongithub {
 				color: @c-cristian;
 
@@ -193,7 +193,7 @@
 					color: @c-cristian-hover;
 				}
 			}
-			
+
 			&:nth-child(2) .-icongithub {
 				color: @c-giovani;
 
@@ -201,7 +201,7 @@
 					color: @c-giovani-hover;
 				}
 			}
-			
+
 			&:nth-child(3) .-icongithub {
 				color: @c-leticia;
 
@@ -235,7 +235,7 @@
 		.-blockinputone {
 			margin-right: 0;
 			width: 100%;
-			
+
 			@media @sm {
 				margin-right: 20px;
 				width: 50%;
@@ -258,12 +258,12 @@
 			max-width: 100%;
 			margin-bottom: 1.5rem;
 
-			
+
 			@media @sm {
 				max-width: 250px;
 				margin-bottom: 0;
 			}
-			
+
 			@media @lg {
 				max-width: 185px;
 			}
@@ -292,4 +292,37 @@
 		margin-top: -25px;
 	}
 
+}
+#calculo table{
+    width: 60%;
+}
+#calculo table thead tr th, #calculo table tbody tr td{
+    text-align: center;
+}
+#calculo{
+  display: flex;
+  justify-content: space-around;
+}
+.calculo-title{
+  font-size: 35px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.calculo{
+  align-items: center;
+  width: 40%;
+}
+.calculo-all{
+    margin-left: 20px;
+    display: flex;
+}
+.values{
+  text-align: center;
+  font-size: 20px;
+}
+.calculo-values{
+  border-bottom: 1px solid black;
+}
+.hide{
+  display: none;
 }
