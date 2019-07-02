@@ -34,6 +34,7 @@ function createQueue(){
 	}
 	var newJob =  new JobStruct(id,$('#clocks').val(),$('.prioritySelect').val());
 	jobsToExecute.push(newJob);
+	jobsToCalculate.push(newJob);
 	id++;
 	$('.table-logs').append(`
 		<li class="-itemjob">
@@ -55,7 +56,6 @@ function startJobs() {
 		return;
 	}
 	toast(messages.executeJobs);
-	jobsToCalculate = jobsToExecute;
 	chartData = [];
 	$('.table-logs').append("<li>Iniciando execução dos Jobs. Modo de execução: " + $('.typeOfProcess').val() +"</li>");
 	startTimeJobs = new Date().getTime();
@@ -200,6 +200,7 @@ function toast(msg, txtcolor = null) {
 }
 function calculo(){
 	for(var a = 0; a < jobsToCalculate.length; a++){
+			$('#calculo table tbody').empty();
 			jobsToCalculate[a].lastTime = 0;
 			jobsToCalculate[a].totalTime = 0;
 			jobsToCalculate[a].waitTime = 0;
@@ -212,6 +213,7 @@ function calculo(){
 			}
 	}
 	drawCalculo();
+	jobsToCalculate = [];
 }
 function drawCalculo(){
 	var totalWaitTime = 0;
