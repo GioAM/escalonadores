@@ -9,7 +9,7 @@ Escalonadores
 
 ## Executando localmente
 
-#### Antes, é necessário ter instalado em sua máquina os seguintes requisitos:
+#### É necessário ter instalado em sua máquina os seguintes requisitos:
 
   - NodeJS:
 
