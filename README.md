@@ -1,7 +1,5 @@
 <div align="center">
-  <a href="" rel="noopener">
-    <img src="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png" width=150px height=150px alt="Escalonadores" />
-  </a>
+  <img src="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png" width=150px height=150px alt="Escalonadores" />
 </div>
 
 <h2 align="center">Escalonadores</h2>
@@ -16,9 +14,13 @@
 
 </div>
 
+## Sobre
+
+Simples aplicação demonstrativa do escalonamento de processos no Sistema Operacional. Desenvolvido para a matéria de Sistemas Operacionais I.
+
 ## Executando localmente
 
-#### É necessário ter instalado em sua máquina os seguintes requisitos:
+Para executar ou modificar a aplicação em seu local, é necessário ter instalado os seguintes requisitos:
 
   - NodeJS:
 
@@ -38,7 +40,7 @@
 
         > gulp -v
 
-#### Executando
+## Executando
   
   - Após clonar o repositório, acesse o diretório *"escalonadores"*.
 
@@ -54,6 +56,4 @@
 
       - *Deve abrir automaticamente o seu navegador.*
 
-  - **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**. 
-
---------------------
+  - **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**.
