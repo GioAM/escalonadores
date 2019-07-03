@@ -20,7 +20,7 @@ Simples aplicação demonstrativa do escalonamento de processos no Sistema Opera
 
 ## Executando localmente
 
-Para executar ou modificar a aplicação em seu local, é necessário ter instalado os seguintes requisitos:
+Para executar ou modificar a aplicação em seu local, é necessário ter instalado as seguintes dependências:
 
   - NodeJS:
 
@@ -57,3 +57,11 @@ Para executar ou modificar a aplicação em seu local, é necessário ter instal
       - *Deve abrir automaticamente o seu navegador.*
 
   - **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**.
+
+## Autores
+
+  - [@CristianAmbrosi](https://github.com/CristianAmbrosi)
+
+  - [@GioAM](https://github.com/GioAM)
+
+  - [@leticiapmay99](https://github.com/leticiapmay99)
