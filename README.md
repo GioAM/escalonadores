@@ -1,11 +1,10 @@
 <div align="center">
   <a href="" rel="noopener">
-    <img src="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png" alt="Escalonadores" />
+    <img src="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png" width=150px height=150px alt="Escalonadores" />
   </a>
 </div>
 
-Escalonadores
-===============================================
+<h2 align="center">Escalonadores</h2>
 
 <div align="center">
 
