@@ -116,53 +116,50 @@
 			<div class="row mb-4">
 				<div class="col-12"> <!-- Item card -->
 
-					<section class="card -schedulerchart shadow-sm bg-white rounded">
+					<section id="sectionGraphic" class="card -schedulerchart shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Gráfico de tempo de execução dos Jobs</h3>
 							<div id="chartTime" style="height: 300px;"></div>
 						</div>
-						</section>
-						<section id="sectionCalculo" class="hide card -schedulerchart shadow-sm bg-white rounded">
-							<div class="card-body">
-								<h3 class="-titlecards card-title text-center mb-4">Cálculo de Tempo</h3>
-									<div id="calculo" class="hide">
-										<table class="table table-bordered">
-											<thead class="thead-dark">
-												<th scope="col">Id do Job</th>
-												<th scope="col">Tempo de execução</th>
-												<th scope="col">Tempo de espera</th>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-										<div class="calculo">
-											<div class="calculo-all">
-											<span class="calculo-title">Tt = </span>
-												<div class="values">
-													<span class="calculo-values totalTimeValues"></span></br>
-													<span class="calculo-sub-values lengthTime"></span>
-												</div>
-											<span class="calculo-title"> = </span>
-											<span class="valueTotal calculo-title"></span>
-											</div>
-										</div>
-										<div class="calculo">
-											<div class="calculo-all">
-											<span class="calculo-title">Tw = </span>
-												<div class="values">
-													<span class="calculo-values waitTimeValues"></span></br>
-													<span class="calculo-sub-values lengthTime"></span>
-												</div>
-											<span class="calculo-title"> = </span>
-											<span class="valueWaitTotal calculo-title"></span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</section>
-						</section>
 					</section>
 
+					<section id="sectionCalculo" class="hide card -schedulerchart shadow-sm bg-white rounded">
+						<div class="card-body">
+							<h3 class="-titlecards card-title text-center mb-4">Cálculo de Tempo</h3>
+							<div id="calculo" class="hide">
+								<table class="table table-bordered">
+									<thead class="thead-dark">
+										<th scope="col">Id do Job</th>
+										<th scope="col">Tempo de execução</th>
+										<th scope="col">Tempo de espera</th>
+									</thead>
+									<tbody></tbody>
+								</table>
+								<div class="calculo">
+									<div class="calculo-all">
+									<span class="calculo-title">Tt = </span>
+										<div class="values">
+											<span class="calculo-values totalTimeValues"></span></br>
+											<span class="calculo-sub-values lengthTime"></span>
+										</div>
+									<span class="calculo-title"> = </span>
+									<span class="valueTotal calculo-title"></span>
+									</div>
+								</div>
+								<div class="calculo">
+									<div class="calculo-all">
+									<span class="calculo-title">Tw = </span>
+										<div class="values">
+											<span class="calculo-values waitTimeValues"></span></br>
+											<span class="calculo-sub-values lengthTime"></span>
+										</div>
+									<span class="calculo-title"> = </span>
+									<span class="valueWaitTotal calculo-title"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 				</div>
 			</div>
 

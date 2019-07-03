@@ -86,26 +86,26 @@ function startJobs() {
 
 	if(typeProgress === "RRS") {
 		while(jobsToExecute.length > 0) {
-			var jobNow = jobsToExecute[0];
+			let jobNow = jobsToExecute[0];
 			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando uma parte</li>");
 			jobPreemptivo(jobNow);
 		}
 	} else if(typeProgress === "SJF") {
 		jobsToExecute.sort(compareTime);
-		for (var i = 0; i < jobsToExecute.length; i++) {
+		for (let i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
 	} else if(typeProgress === "PRIORITY") {
 		jobsToExecute.sort(comparePriority);
-		for (var i = 0; i < jobsToExecute.length; i++) {
+		for (let i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
 	} else if(typeProgress === "FIFO") {
-		for (var i = 0; i < jobsToExecute.length; i++) {
+		for (let i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
@@ -262,7 +262,7 @@ function drawCalculo() {
 	let lengthTime =  jobsToCalculate.length;
 	let totalTime = 0;
 	let valuesTotalTime = "";
-	for(let a = 0; a < jobsToCalculate.length; a++){
+	for(let a = 0; a < jobsToCalculate.length; a++) {
 		$('#calculo table tbody').append(`
 		<tr>
 			<td>Job ${jobsToCalculate[a].jobId}</td>
@@ -273,7 +273,7 @@ function drawCalculo() {
 		totalTime = totalTime + jobsToCalculate[a].totalTime;
 		valuesWaitTime = valuesWaitTime + jobsToCalculate[a].waitTime;
 		valuesTotalTime = valuesTotalTime + jobsToCalculate[a].totalTime;
-		if((lengthTime - 1) != a){
+		if((lengthTime - 1) != a) {
 			valuesWaitTime = valuesWaitTime + " + " ;
 			valuesTotalTime = valuesTotalTime +  " + ";
 		}
@@ -289,6 +289,10 @@ function drawCalculo() {
 
 function cleanScheduler() {
 	$('#cleanScheduler').on('click', function() {
+		$('#sectionGraphic').hide();
+		$('#sectionCalculo').hide();
 		toast(messages.alert.restartScheduler, messages.color.success);
 	});
 }
+
+// https://braziljs.org/blog/javascript-multi-threading-com-web-workers-2/
