@@ -1,11 +1,21 @@
+<div align="center">
+  <a href="" rel="noopener">
+    <img src="https://user-images.githubusercontent.com/9125404/57946309-67a6b080-78b2-11e9-8075-b280bf1ce9a1.png" alt="Escalonadores" />
+  </a>
+</div>
+
 Escalonadores
 ===============================================
 
+<div align="center">
+
 -------------------- 
 
-- **Demo:** https://gioam.github.io/escalonadores
+**Demo:** https://gioam.github.io/escalonadores
 
 --------------------
+
+</div>
 
 ## Executando localmente
 
