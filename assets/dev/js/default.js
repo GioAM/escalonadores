@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 let id = 1;
 let startTimeJobs;
 let jobsToExecute = [];
@@ -28,7 +26,7 @@ let messages = {
 }
 
 $(document).ready(() => {
-    cleanScheduler();
+	cleanScheduler();
 });
 
 function JobStruct(jobId, totalClocks, priority) {
@@ -46,16 +44,19 @@ function TimeExecution(jobId, startTime, finishTime) {
 
 function createQueue() {
 	let schTimeExecution = $('#schTimeExecution').val();
+	let prioritySelect = $('.prioritySelect').val();
 	let exprRegularInt = /([0-9])/.test(schTimeExecution);
+
 	if((schTimeExecution === null) || (schTimeExecution === "") || (!exprRegularInt)) {
 		toast(messages.error.totalTimeExecution, messages.color.danger);
 		return;
 	}
 
-	var newJob =  new JobStruct(id, schTimeExecution, $('.prioritySelect').val());
+	var newJob =  new JobStruct(id, schTimeExecution, prioritySelect);
 	jobsToExecute.push(newJob);
 	jobsToCalculate.push(newJob);
 	id++;
+
 	$('.table-logs').append(`
 		<li class="-itemjob">
 			<i class="fas fa-level-up-alt -arrowjobicon"></i>
@@ -67,7 +68,7 @@ function createQueue() {
 }
 
 function startJobs() {
-	if(jobsToExecute.length <= 0  || jobsToExecute == null){
+	if((jobsToExecute.length <= 0) || (jobsToExecute == null)) {
 		toast(messages.arrayJobsEmpty);
 		return;
 	}
@@ -77,130 +78,148 @@ function startJobs() {
 		toast(messages.error.timeSliceEmpty, messages.color.danger);
 		return;
 	}
-	
+
 	chartData = [];
-	$('.table-logs').append("<li>Iniciando execução dos Jobs. Modo de execução: " + $('.typeOfProcess').val() +"</li>");
+	let typeProgress = $('.typeOfProcess').val();
+	$('.table-logs').append("<li>Iniciando execução dos Jobs. Modo de execução: " + typeProgress +"</li>");
 	startTimeJobs = new Date().getTime();
-	if($('.typeOfProcess').val() == "RRS"){
-		while(jobsToExecute.length > 0){
+
+	if(typeProgress === "RRS") {
+		while(jobsToExecute.length > 0) {
 			var jobNow = jobsToExecute[0];
 			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando uma parte</li>");
 			jobPreemptivo(jobNow);
 		}
-	}else if($('.typeOfProcess').val() == "SJF"){
+	} else if(typeProgress === "SJF") {
 		jobsToExecute.sort(compareTime);
 		for (var i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
-	}else if($('.typeOfProcess').val() == "PRIORITY"){
+	} else if(typeProgress === "PRIORITY") {
 		jobsToExecute.sort(comparePriority);
 		for (var i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
-	}else if($('.typeOfProcess').val() == "FIFO"){
+	} else if(typeProgress === "FIFO") {
 		for (var i = 0; i < jobsToExecute.length; i++) {
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
 			jobRoundRobin(jobsToExecute[i]);
 			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
 		}
 	}
+
 	jobsToExecute = [];
 }
 
-function jobPreemptivo(jobItem){
-	if(jobItem.totalClocks / timeSlice > 30){
+function jobPreemptivo(jobItem) {
+	if((jobItem.totalClocks / timeSlice) > 30) {
 		toast("Sistema matou o Job " + jobItem.jobId + " pois é muito grande podendo danificar o sistema.")
 		$('.table-logs').append("<li>Sistema matou o Job " + jobItem.jobId + " </li>");
 		jobsToExecute.shift();
 		return;
 	}
-	if(!jobItem.executed){
+
+	if(!jobItem.executed) {
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
-		var now = new Date().getTime();
-		var startTime = (now - startTimeJobs) / 1000;
+		let now = new Date().getTime();
+		let startTime = (now - startTimeJobs) / 1000;
 		sleep(1000);
-		var finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
-		var jobExecution =  new TimeExecution(jobItem.jobId,startTime,finishTime);
+		let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
+		let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
 		chartData.push(jobExecution);
 		jobsToExecute.shift();
-		if(jobItem.totalClocks <= 0){
+
+		if(jobItem.totalClocks <= 0) {
 			jobItem.executed = true;
 			$('.table-logs').append("<li>Job " + jobItem.jobId + " executou totalmente. </li>");
-		}else{
+		} else {
 			jobsToExecute.push(jobItem);
 		}
 	}
 }
 
-function jobRoundRobin(jobItem){
-	if(jobItem.totalClocks / timeSlice > 30){
+function jobRoundRobin(jobItem) {
+	if((jobItem.totalClocks / timeSlice) > 30) {
 		toast("Sistema matou o Job " + jobItem.jobId + " pois é muito grande podendo danificar o sistema.");
 		$('.table-logs').append("<li>Sistema matou o Job " + jobItem.jobId + " </li>");
 		return;
 	}
-	var now = new Date().getTime();
-	var startTime = (now - startTimeJobs) / 1000;
-	while(jobItem.totalClocks > 0){
+
+	let now = new Date().getTime();
+	let startTime = (now - startTimeJobs) / 1000;
+	while(jobItem.totalClocks > 0) {
 		console.log(jobItem.totalClocks);
 		sleep(1000);
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 	}
-	var finishTime  =  (new Date().getTime() - startTimeJobs)/1000;
-	var jobExecution =  new TimeExecution(jobItem.jobId,startTime,finishTime);
+
+	let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
+	let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
 	chartData.push(jobExecution);
 }
 
-function createChart(){
-	if(chartData.length <= 0  || chartData == null){
+function createChart() {
+	if((chartData.length <= 0)  || (chartData == null)) {
 		toast(messages.arrayTimesEmpty);
 		return;
 	}
+
 	calculo();
+
 	$('.table-logs').append("<li>Montando gráfico.</li>");
-	google.charts.load("current", {packages:["timeline"]});
+	google.charts.load("current", { packages: ["timeline"] });
 	google.charts.setOnLoadCallback(drawChart);
 }
 
-function compareTime(jobA,jobB) {
-  if (jobA.totalClocks < jobB.totalClocks)
-     return -1;
-  if (jobA.totalClocks > jobB.totalClocks)
-    return 1;
-  return 0;
+function compareTime(jobA, jobB) {
+	if (jobA.totalClocks < jobB.totalClocks)
+		return -1;
+	if (jobA.totalClocks > jobB.totalClocks)
+		return 1;
+	return 0;
 }
 
-function comparePriority(jobA,jobB) {
-  if (jobA.priority < jobB.priority)
-     return -1;
-  if (jobA.priority > jobB.priority)
-    return 1;
-  return 0;
+function comparePriority(jobA, jobB) {
+	if (jobA.priority < jobB.priority)
+		return -1;
+	if (jobA.priority > jobB.priority)
+		return 1;
+	return 0;
 }
 
 function sleep(milliseconds) {
-	var now = new Date().getTime();
-	while ( new Date().getTime() < now + milliseconds ){}
+	let now = new Date().getTime();
+	while ( new Date().getTime() < (now + milliseconds) ) {}
 }
 
 function drawChart() {
-    var container = document.getElementById('chartTime');
-    var chart = new google.visualization.Timeline(container);
-    var dataTable = new google.visualization.DataTable();
+    let container = document.getElementById('chartTime');
+    let chart = new google.visualization.Timeline(container);
+    let dataTable = new google.visualization.DataTable();
     dataTable.addColumn({ type: 'string', id: 'Job' });
     dataTable.addColumn({ type: 'date', id: 'Start' });
-    dataTable.addColumn({ type: 'date', id: 'End' });
-		for (var i = 0; i < chartData.length; i++) {
-			dataTable.addRow([ 'Job ' +  chartData[i].jobId,  new Date(0,0,0,0,0, chartData[i].startTime ),  new Date(0,0,0,0,0,chartData[i].finishTime) ]);
-		}
-    var options = {
-      timeline: { singleColor: '#007bff' },
-    };
-    chart.draw(dataTable, options);
+	dataTable.addColumn({ type: 'date', id: 'End' });
+	
+	for (let i = 0; i < chartData.length; i++) {
+		dataTable.addRow(
+			[
+				'Job ' +  chartData[i].jobId,  
+				new Date(0, 0, 0, 0, 0, chartData[i].startTime ),  
+				new Date(0, 0, 0, 0, 0, chartData[i].finishTime) 
+			]
+		);
 	}
+
+    let options = {
+    	timeline: { singleColor: '#007bff' },
+	};
+	
+    chart.draw(dataTable, options);
+}
 
 function toast(msg, txtColor = null) {
 	$('#toast-place').append(`
@@ -220,19 +239,20 @@ function toast(msg, txtColor = null) {
 	});
 }
 function calculo(){
-	for(var a = 0; a < jobsToCalculate.length; a++){
+	for(let a = 0; a < jobsToCalculate.length; a++) {
 			$('#calculo table tbody').empty();
 			jobsToCalculate[a].lastTime = 0;
 			jobsToCalculate[a].totalTime = 0;
 			jobsToCalculate[a].waitTime = 0;
-			for(var i = 0; i < chartData.length; i++){
-				if(jobsToCalculate[a].jobId == chartData[i].jobId){
+			for(let i = 0; i < chartData.length; i++){
+				if(jobsToCalculate[a].jobId == chartData[i].jobId) {
 					jobsToCalculate[a].totalTime = Math.round(jobsToCalculate[a].totalTime + (chartData[i].finishTime - chartData[i].startTime));
 					jobsToCalculate[a].waitTime = Math.round(jobsToCalculate[a].waitTime + (chartData[i].startTime - jobsToCalculate[a].lastTime));
 					jobsToCalculate[a].lastTime = chartData[i].finishTime;
 				}
 			}
 	}
+
 	drawCalculo();
 	jobsToCalculate = [];
 }
