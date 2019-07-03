@@ -125,9 +125,7 @@ function watchFile() {
     gulp.watch(sources.watch.html).on('change', reload);
     gulp.watch(sources.watch.js, script).on('change', reload);
     gulp.src(sources.path.js + 'build.min.js')
-        .pipe(notify({ 
-            message: 'Gulp is Watching. Happy Coding!'
-        }));
+        .pipe(notify({ message: 'Gulp is Watching. Happy Coding!' }));
 }
 
 exports.libScript = libScript;

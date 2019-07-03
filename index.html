@@ -69,16 +69,27 @@
 								<div class="-subblockcardcenter mb-4">
 									<div class="-blockinputone">
 										<div class="-inputblockseconds mb-4">
-											<p class="-txtinput">Total de execução:</p>
-											<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="clocks"/>
+											<p class="-txtinput">Tempo de execução:</p>
+											<input class="-inputdefault form-control" placeholder="Valor em inteiro" id="schTimeExecution"/>
 										</div>
 
 										<div class="-inputblockseconds">
-											<p class="-txtinput">Time Slice:</p>
-											<input class="-inputdefault form-control" placeholder="Em Ciclos de clock" id="timeSlice"/>
+											<p class="-txtinput">Intervalo de Tempo:</p>
+											<input class="-inputdefault form-control" placeholder="Valor em inteiro" id="timeSlice"/>
 										</div>
 									</div>
 									<button id="add-toast" onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
+								</div>
+
+								<div class="my-4 mb-4">
+									<p class="-txtinput">Selecione a prioridade:</p>
+									<select class="prioritySelect custom-select" name="prioritySelect">
+										<option value="1">LOWEST</option>
+										<option value="2">LOW</option>
+										<option value="3" selected>MEDIUM</option>
+										<option value="4">HIGH</option>
+										<option value="5">HIGHEST</option>
+									</select>
 								</div>
 								<button onclick="startJobs()" class="-btninit btn btn-primary">Iniciar Jobs</button>
 							</div>
@@ -92,19 +103,9 @@
 									<option value="PRIORITY">POR PRIORIDADES</option>
 								</select>
 							</div>
-							<div class="my-4 mb-4">
-								<p class="-txtinput">Selecione a prioridade:</p>
-								<select class="prioritySelect custom-select" name="prioritySelect">
-									<option value="5">HIGHEST</option>
-									<option value="4">HIGH</option>
-									<option value="3" selected>MEDIUM</option>
-									<option value="2">LOW</option>
-									<option value="1">LOWEST</option>
-								</select>
-							</div>
 							<div class="-subblockcard">
 								<button onclick="createChart()" class="-btndefault btn btn-primary">Montar Gráfico</button>
-								<button class="-btndefault btn btn-primary">Limpar</button>
+								<button id="cleanScheduler" class="-btndefault btn btn-primary">Limpar</button>
 							</div>
 						</div>
 					</section>

@@ -1,18 +1,35 @@
 'use strict';
 
-var id = 1;
-var startTimeJobs;
-var jobsToExecute = [];
-var jobsToCalculate = [];
-var chartData = [];
-var timeSlice;
+
+
+let id = 1;
+let startTimeJobs;
+let jobsToExecute = [];
+let jobsToCalculate = [];
+let chartData = [];
+let timeSlice;
 let messages = {
-	executeJobs: 'Iniciando execução dos Jobs',
-	totalJobsEmpty: 'Adicione o valor total de clocks para o job',
-	arrayJobsEmpty: 'Adicione Jobs para a execução',
-	timeSliceEmpty: 'Adicione o valor do time Slice',
-	arrayTimesEmpty: 'Execute uma operação de Escalonamento antes de montar o gráfico!'
+	error: {
+		totalTimeExecution: 'Insira um valor válido ao Tempo de Execução',
+		timeSliceEmpty: 'Insira um valor válido ao Intervalo de Tempo',
+		arrayTimesEmpty: 'Execute uma operação para montar o gráfico!'
+
+	},
+	alert: {
+		executeJobs: 'Iniciando o escalonamento dos Jobs',
+		restartScheduler: 'Escalonador reiniciado!',
+		graphicMounted: 'Gráfico montado com sucesso!'
+	},
+	color: {
+		success: '-textsuccess',
+		danger: '-texterror',
+		warning: '-textwarnning'
+	}
 }
+
+$(document).ready(() => {
+    cleanScheduler();
+});
 
 function JobStruct(jobId, totalClocks, priority) {
 	this.jobId = jobId;
@@ -27,12 +44,15 @@ function TimeExecution(jobId, startTime, finishTime) {
 	this.finishTime = finishTime;
 }
 
-function createQueue(){
-	if($('#clocks').val() == null || $('#clocks').val() == ""){
-		toast(messages.totalJobsEmpty);
+function createQueue() {
+	let schTimeExecution = $('#schTimeExecution').val();
+	let exprRegularInt = /([0-9])/.test(schTimeExecution);
+	if((schTimeExecution === null) || (schTimeExecution === "") || (!exprRegularInt)) {
+		toast(messages.error.totalTimeExecution, messages.color.danger);
 		return;
 	}
-	var newJob =  new JobStruct(id,$('#clocks').val(),$('.prioritySelect').val());
+
+	var newJob =  new JobStruct(id, schTimeExecution, $('.prioritySelect').val());
 	jobsToExecute.push(newJob);
 	jobsToCalculate.push(newJob);
 	id++;
@@ -51,15 +71,16 @@ function startJobs() {
 		toast(messages.arrayJobsEmpty);
 		return;
 	}
-	if($('#timeSlice').val() == null || $('#timeSlice').val() == ""){
-		toast(messages.timeSliceEmpty);
+	
+	timeSlice = $('#timeSlice').val();
+	if((timeSlice === null) || (timeSlice === "")) {
+		toast(messages.error.timeSliceEmpty, messages.color.danger);
 		return;
 	}
-	toast(messages.executeJobs);
+	
 	chartData = [];
 	$('.table-logs').append("<li>Iniciando execução dos Jobs. Modo de execução: " + $('.typeOfProcess').val() +"</li>");
 	startTimeJobs = new Date().getTime();
-	timeSlice = $('#timeSlice').val();
 	if($('.typeOfProcess').val() == "RRS"){
 		while(jobsToExecute.length > 0){
 			var jobNow = jobsToExecute[0];
@@ -181,10 +202,10 @@ function drawChart() {
     chart.draw(dataTable, options);
 	}
 
-function toast(msg, txtcolor = null) {
+function toast(msg, txtColor = null) {
 	$('#toast-place').append(`
-		<div role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" class="toast" data-delay="1500">
-			<div class="toast-body ${txtcolor}">
+		<div role="alert" aria-live="assertive" aria-atomic="true" data-autohide="true" class="toast" data-delay="2000">
+			<div class="toast-body ${txtColor}">
 				<span class="-toastmsg">${msg}</span>
 				<button type="button" class="close" data-dismiss="toast" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -215,13 +236,13 @@ function calculo(){
 	drawCalculo();
 	jobsToCalculate = [];
 }
-function drawCalculo(){
-	var totalWaitTime = 0;
-	var valuesWaitTime = "";
-	var lengthTime =  jobsToCalculate.length;
-	var totalTime = 0;
-	var valuesTotalTime = "";
-	for(var a = 0; a < jobsToCalculate.length; a++){
+function drawCalculo() {
+	let totalWaitTime = 0;
+	let valuesWaitTime = "";
+	let lengthTime =  jobsToCalculate.length;
+	let totalTime = 0;
+	let valuesTotalTime = "";
+	for(let a = 0; a < jobsToCalculate.length; a++){
 		$('#calculo table tbody').append(`
 		<tr>
 			<td>Job ${jobsToCalculate[a].jobId}</td>
@@ -232,15 +253,22 @@ function drawCalculo(){
 		totalTime = totalTime + jobsToCalculate[a].totalTime;
 		valuesWaitTime = valuesWaitTime + jobsToCalculate[a].waitTime;
 		valuesTotalTime = valuesTotalTime + jobsToCalculate[a].totalTime;
-		if(lengthTime-1 != a){
+		if((lengthTime - 1) != a){
 			valuesWaitTime = valuesWaitTime + " + " ;
 			valuesTotalTime = valuesTotalTime +  " + ";
 		}
 	}
+
 	$('.totalTimeValues').text(valuesTotalTime);
 	$('.waitTimeValues').text(valuesWaitTime);
 	$('.valueWaitTotal').text((totalWaitTime/lengthTime) + 's');
 	$('.valueTotal').text((totalTime/lengthTime) + 's');
 	$('.lengthTime').text(lengthTime);
 	$('#sectionCalculo').removeClass('hide');
+}
+
+function cleanScheduler() {
+	$('#cleanScheduler').on('click', function() {
+		toast(messages.alert.restartScheduler, messages.color.success);
+	});
 }
