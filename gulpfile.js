@@ -20,6 +20,11 @@ let sources = {
     lib: {
         css: [
             './node_modules/bootstrap/dist/css/bootstrap.min.css',
+            './node_modules/@fortawesome/fontawesome-free/webfonts/*.eot',
+            './node_modules/@fortawesome/fontawesome-free/webfonts/*.svg',
+            './node_modules/@fortawesome/fontawesome-free/webfonts/*.ttf',
+            './node_modules/@fortawesome/fontawesome-free/webfonts/*.woff',
+            './node_modules/@fortawesome/fontawesome-free/webfonts/*.woff2',
             './node_modules/@fortawesome/fontawesome-free/css/all.min.css'
         ],
         js: [
