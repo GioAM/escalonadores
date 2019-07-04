@@ -1,0 +1,41 @@
+{
+  "name": "escalonadores",
+  "version": "1.0.0",
+  "description": "Simples aplicação demonstrativa de Escalonadores. Desenvolvido para a matéria de Sistemas Operacionais I.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GioAM/escalonadores.git"
+  },
+  "keywords": [
+    "scheduler"
+  ],
+  "author": "Cristian J. Ambrosi, Giovani Meneguel, Leticia May",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/GioAM/escalonadores/issues"
+  },
+  "homepage": "https://github.com/GioAM/escalonadores#readme",
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "bootstrap": "^4.3.1",
+    "browser-sync": "^2.26.7",
+    "google-charts": "^2.0.0",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-less": "^4.0.1",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-notify": "^3.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglifycss": "^1.1.0",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

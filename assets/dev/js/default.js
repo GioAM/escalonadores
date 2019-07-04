@@ -1,5 +1,7 @@
 'use strict';
 
+// importScripts('../../dev/js/sleep-worker.js');
+
 let id = 1;
 let startTimeJobs;
 let jobsToExecute = [];
@@ -24,6 +26,18 @@ let messages = {
 		warning: '-textwarnning'
 	}
 }
+
+var worker = new Worker('../../../assets/dev/js/sleep-worker.js');
+console.log(worker);
+worker.postMessage('sleepSch');
+// worker.postMessage('message', function(event) {
+// 	console.log('event', event);
+// 	document.body.innerHTML = event.data.message;
+// 	console.log('event.data', event.data.message);
+// 	//worker.terminate();
+// 	worker.postMessage('do some more work');
+// });
+
 
 $(document).ready(function() {
 	$('[data-toggle="tooltip"]').tooltip();
@@ -129,7 +143,7 @@ function jobPreemptivo(jobItem) {
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 		let now = new Date().getTime();
 		let startTime = (now - startTimeJobs) / 1000;
-		sleep(1000);
+		sleep();
 		let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
 		let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
 		chartData.push(jobExecution);
@@ -155,7 +169,7 @@ function jobRoundRobin(jobItem) {
 	let startTime = (now - startTimeJobs) / 1000;
 	while(jobItem.totalClocks > 0) {
 		console.log(jobItem.totalClocks);
-		sleep(1000);
+		sleep();
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 	}
 
@@ -192,11 +206,6 @@ function comparePriority(jobA, jobB) {
 	if (jobA.priority > jobB.priority)
 		return 1;
 	return 0;
-}
-
-function sleep(milliseconds) {
-	let now = new Date().getTime();
-	while ( new Date().getTime() < (now + milliseconds) ) {}
 }
 
 function drawChart() {
@@ -330,5 +339,3 @@ function disableForm(item) {
 			break;
 	}
 }
-
-// https://braziljs.org/blog/javascript-multi-threading-com-web-workers-2/

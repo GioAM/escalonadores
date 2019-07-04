@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Test Worker</title>
+</head>
+<body>
+
+		<div class="my-4">
+				<p class="-txtinput">Selecione a prioridade:</p>
+				<select id="prioritySelect" class="prioritySelect custom-select" name="prioritySelect">
+					<option value="1">Lowest</option>
+					<option value="2">Low</option>
+					<option value="3" selected>Medium</option>
+					<option value="4">High</option>
+					<option value="5">Highes</option>
+				</select>
+			</div>
+			
+			<div class="my-4">
+				<p class="-txtinput">Selecione o tipo de Escalonamento:</p>
+				<select id="typeOfProcess" class="typeOfProcess custom-select" name="typeOfProcess">
+					<option value="FIFO" selected>First-In First-Out (FIFO)</option>
+					<option value="SJF">Shortest Job First (SJF)</option>
+					<option value="RRS">Round Robin Schedule</option>
+					<option value="PRIORITY">Por Prioridade</option>
+				</select>
+			</div>
+
+	<script>
+		var worker;
+		//if(window.worker) {
+			console.log('Workers are aviable');
+			worker = new Worker('worker.js');
+			
+			worker.postMessage('do some work');
+			worker.postMessage('message', function(event) {
+				console.log('event', event);
+				document.body.innerHTML = event.data.message;
+				console.log('event.data', event.data.message);
+				worker.terminate();
+				worker.postMessage('do some more work');
+			});
+		//}
+	</script>
+
+	<h1>Waiting for data...</h1>
+</body>
+</html>
