@@ -42,14 +42,21 @@
 		worker.postMessage(
 			{
 				'cmd': 'startWorker',
-				'msg': 'Hi'
+				'msg': 1000
+			}
+		);
+
+		worker.postMessage(
+			{
+				'cmd': 'startWorker',
+				'msg': 10000
 			}
 		);
 
 		worker.postMessage(
 			{
 				'cmd': 'stopWorker',
-				'msg': 10000
+				'msg': 'STOP'
 			}
 		);
 

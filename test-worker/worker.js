@@ -9,9 +9,8 @@ self.addEventListener('message', function(e) {
             	self.postMessage('Woker sleep started! ' + data.msg);
             	break;
         case 'stopWorker':
-                sleep(data.msg);
-                self.postMessage('Woker sleep stoped! ' + data.msg);
                 self.close();
+                self.postMessage('Woker sleep stoped! ' + data.msg);
                 break;
         default:
             	self.postMessage('Unknown command! ' + data.msg);
