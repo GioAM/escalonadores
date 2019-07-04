@@ -25,7 +25,8 @@ let messages = {
 	}
 }
 
-$(document).ready(() => {
+$(document).ready(function() {
+	$('[data-toggle="tooltip"]').tooltip();
 	cleanScheduler();
 });
 
@@ -72,13 +73,14 @@ function startJobs() {
 		toast(messages.arrayJobsEmpty);
 		return;
 	}
-	
+
 	timeSlice = $('#timeSlice').val();
 	if((timeSlice === null) || (timeSlice === "")) {
 		toast(messages.error.timeSliceEmpty, messages.color.danger);
 		return;
 	}
-
+	
+	disableForm('disable');
 	chartData = [];
 	let typeProgress = $('.typeOfProcess').val();
 	$('.table-logs').append("<li>Iniciando execução dos Jobs. Modo de execução: " + typeProgress +"</li>");
@@ -164,15 +166,16 @@ function jobRoundRobin(jobItem) {
 
 function createChart() {
 	if((chartData.length <= 0)  || (chartData == null)) {
-		toast(messages.arrayTimesEmpty);
+		toast(messages.error.arrayTimesEmpty, messages.color.danger);
 		return;
 	}
 
 	calculo();
-
-	$('.table-logs').append("<li>Montando gráfico.</li>");
 	google.charts.load("current", { packages: ["timeline"] });
 	google.charts.setOnLoadCallback(drawChart);
+	$('#createChart').prop('disabled', true);
+	$('#sectionGraphic').show();
+	toast(messages.alert.graphicMounted, messages.color.success);
 }
 
 function compareTime(jobA, jobB) {
@@ -289,10 +292,43 @@ function drawCalculo() {
 
 function cleanScheduler() {
 	$('#cleanScheduler').on('click', function() {
+		id = 1;
+		startTimeJobs;
+		jobsToExecute = [];
+		jobsToCalculate = [];
+		chartData = [];
+		$('.table-logs').html("");
+		$('#schTimeExecution').val("");
+		$('#timeSlice').val("");
 		$('#sectionGraphic').hide();
-		$('#sectionCalculo').hide();
+		// $('#sectionCalculo').hide();
+		$('#chartTime').html("");
+		// $('#chartTime').html("");
+		disableForm('enable');
 		toast(messages.alert.restartScheduler, messages.color.success);
 	});
+}
+
+function disableForm(item) {
+	switch (item) {
+		case 'disable':
+			$('#schTimeExecution').prop('disabled', true);
+			$('#timeSlice').prop('disabled', true);
+			$('#createQueue').prop('disabled', true);
+			$('#prioritySelect').prop('disabled', true);
+			$('#typeOfProcess').prop('disabled', true);
+			$('#startJobs').prop('disabled', true);
+			break;
+		case 'enable':
+			$('#schTimeExecution').prop('disabled', false);
+			$('#timeSlice').prop('disabled', false);
+			$('#createQueue').prop('disabled', false);
+			$('#prioritySelect').prop('disabled', false);
+			$('#typeOfProcess').prop('disabled', false);
+			$('#startJobs').prop('disabled', false);
+			$('#createChart').prop('disabled', false);
+			break;
+	}
 }
 
 // https://braziljs.org/blog/javascript-multi-threading-com-web-workers-2/

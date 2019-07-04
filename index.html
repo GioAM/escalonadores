@@ -65,46 +65,47 @@
 					<section class="card -cardscheduler shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Adicionar Jobs a Fila</h3>
-							<div>
+							<div class="my-4">
 								<div class="-subblockcardcenter mb-4">
 									<div class="-blockinputone">
 										<div class="-inputblockseconds mb-4">
 											<p class="-txtinput">Tempo de execução:</p>
-											<input class="-inputdefault form-control" placeholder="Valor em inteiro" id="schTimeExecution"/>
+											<input id="schTimeExecution" class="-inputdefault form-control" placeholder="Valor em inteiro"/>
 										</div>
 
 										<div class="-inputblockseconds">
 											<p class="-txtinput">Intervalo de Tempo:</p>
-											<input class="-inputdefault form-control" placeholder="Valor em inteiro" id="timeSlice"/>
+											<input id="timeSlice" class="-inputdefault form-control" placeholder="Valor em inteiro"/>
 										</div>
 									</div>
-									<button id="add-toast" onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
+									<button id="createQueue" onclick="createQueue()" class="-buttonadd btn btn-primary">Adicionar</button>
 								</div>
 
-								<div class="my-4 mb-4">
+								<div class="my-4">
 									<p class="-txtinput">Selecione a prioridade:</p>
-									<select class="prioritySelect custom-select" name="prioritySelect">
-										<option value="1">LOWEST</option>
-										<option value="2">LOW</option>
-										<option value="3" selected>MEDIUM</option>
-										<option value="4">HIGH</option>
-										<option value="5">HIGHEST</option>
+									<select id="prioritySelect" class="prioritySelect custom-select" name="prioritySelect">
+										<option value="1">Lowest</option>
+										<option value="2">Low</option>
+										<option value="3" selected>Medium</option>
+										<option value="4">High</option>
+										<option value="5">Highes</option>
 									</select>
 								</div>
-								<button onclick="startJobs()" class="-btninit btn btn-primary">Iniciar Jobs</button>
+								
+								<div class="my-4">
+									<p class="-txtinput">Selecione o tipo de Escalonamento:</p>
+									<select id="typeOfProcess" class="typeOfProcess custom-select" name="typeOfProcess">
+										<option value="FIFO" selected>First-In First-Out (FIFO)</option>
+										<option value="SJF">Shortest Job First (SJF)</option>
+										<option value="RRS">Round Robin Schedule</option>
+										<option value="PRIORITY">Por Prioridade</option>
+									</select>
+								</div>
+								<button onclick="startJobs()" id="startJobs" class="-btninit btn btn-primary ">Iniciar Jobs</button>
 							</div>
 
-							<div class="my-4 mb-4">
-								<p class="-txtinput">Selecione o tipo de Escalonamento:</p>
-								<select class="typeOfProcess custom-select" name="typeOfProcess">
-									<option value="FIFO" selected>FIRST-IN FIRST-OUT (FIFO)</option>
-									<option value="SJF">SHORSTEST-JOB-FIRST (SJF)</option>
-									<option value="RRS">ROUND ROBIN SCHEDULE</option>
-									<option value="PRIORITY">POR PRIORIDADES</option>
-								</select>
-							</div>
 							<div class="-subblockcard">
-								<button onclick="createChart()" class="-btndefault btn btn-primary">Montar Gráfico</button>
+								<button id="createChart" onclick="createChart()" class="-btndefault btn btn-primary">Montar Gráfico</button>
 								<button id="cleanScheduler" class="-btndefault btn btn-primary">Limpar</button>
 							</div>
 						</div>
@@ -116,14 +117,14 @@
 			<div class="row mb-4">
 				<div class="col-12"> <!-- Item card -->
 
-					<section id="sectionGraphic" class="card -schedulerchart shadow-sm bg-white rounded">
+					<section id="sectionGraphic" class="card -schedulerchart hide my-4 shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Gráfico de tempo de execução dos Jobs</h3>
 							<div id="chartTime" style="height: 300px;"></div>
 						</div>
 					</section>
 
-					<section id="sectionCalculo" class="hide card -schedulerchart shadow-sm bg-white rounded">
+					<section id="sectionCalculo" class="card -schedulerchart hide shadow-sm bg-white rounded">
 						<div class="card-body">
 							<h3 class="-titlecards card-title text-center mb-4">Cálculo de Tempo</h3>
 							<div id="calculo" class="hide">
