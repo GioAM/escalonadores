@@ -29,23 +29,31 @@
 				</select>
 			</div>
 
+			<h1 id="workerId" >Waiting for data...</h1>
+
 	<script>
-		var worker;
-		//if(window.worker) {
-			console.log('Workers are aviable');
-			worker = new Worker('worker.js');
-			
-			worker.postMessage('do some work');
-			worker.postMessage('message', function(event) {
-				console.log('event', event);
-				document.body.innerHTML = event.data.message;
-				console.log('event.data', event.data.message);
-				worker.terminate();
-				worker.postMessage('do some more work');
-			});
-		//}
+		var worker = new Worker('worker.js');
+		
+		worker.addEventListener('message', function(e) {
+			console.log('Worker said: ', e.data);
+			document.getElementById('workerId').innerHTML = e.data;
+		}, false);
+
+		worker.postMessage(
+			{
+				'cmd': 'startWorker',
+				'msg': 'Hi'
+			}
+		);
+
+		worker.postMessage(
+			{
+				'cmd': 'stopWorker',
+				'msg': 10000
+			}
+		);
+
 	</script>
 
-	<h1>Waiting for data...</h1>
 </body>
 </html>
