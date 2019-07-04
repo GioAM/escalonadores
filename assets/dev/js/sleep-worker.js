@@ -1,17 +1,21 @@
 'use strict';
 
-self.addEventListener('message', function(event) {
-	this.console.log('eventWorker', event);
-    this.console.log('event.dataWorker', event.data);
-	switch (event.data) {
-		case 'sleepSch':
-			sleep();
-			break;
-	}
-
-	this.self.postMessage({ message: 'TESTE' });
-
-});
+self.addEventListener('message', function(e) {
+	let data = e.data;
+	this.console.log('workerSch iniciando...');
+    switch (data.cmd) {
+        case 'startWorker':
+				sleep(data.msg);
+            	self.postMessage('Woker sleep started! ' + data.msg);
+            	break;
+        case 'stopWorker':
+                self.postMessage('Woker sleep stoped! ' + data.msg);
+                self.close();
+                break;
+        default:
+            	self.postMessage('Unknown command! ' + data.msg);
+    }
+}, false);
 
 function sleep(milliseconds = 1000) {
 	let now = new Date().getTime();

@@ -27,16 +27,11 @@ let messages = {
 	}
 }
 
-var worker = new Worker('../../../assets/dev/js/sleep-worker.js');
-console.log(worker);
-worker.postMessage('sleepSch');
-// worker.postMessage('message', function(event) {
-// 	console.log('event', event);
-// 	document.body.innerHTML = event.data.message;
-// 	console.log('event.data', event.data.message);
-// 	//worker.terminate();
-// 	worker.postMessage('do some more work');
-// });
+var workerSch = new Worker('../../../assets/dev/js/sleep-worker.js');
+console.log(workerSch);
+workerSch.addEventListener('message', function(e) {
+	console.log('Worker said: ', e.data);
+}, false);
 
 
 $(document).ready(function() {
@@ -143,7 +138,9 @@ function jobPreemptivo(jobItem) {
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 		let now = new Date().getTime();
 		let startTime = (now - startTimeJobs) / 1000;
-		sleep();
+		// sleep();
+		workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
+		workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
 		let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
 		let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
 		chartData.push(jobExecution);
@@ -169,9 +166,12 @@ function jobRoundRobin(jobItem) {
 	let startTime = (now - startTimeJobs) / 1000;
 	while(jobItem.totalClocks > 0) {
 		console.log(jobItem.totalClocks);
-		sleep();
+		// sleep();
+		workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 	}
+
+	workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
 
 	let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
 	let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
@@ -206,6 +206,11 @@ function comparePriority(jobA, jobB) {
 	if (jobA.priority > jobB.priority)
 		return 1;
 	return 0;
+}
+
+function sleep(milliseconds = 1000) {
+	let now = new Date().getTime();
+	while ( new Date().getTime() < (now + milliseconds) ) {}
 }
 
 function drawChart() {
