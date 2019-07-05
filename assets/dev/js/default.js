@@ -4,6 +4,9 @@
 
 let id = 1;
 let startTimeJobs;
+let startTime;
+let finishTime;
+let now;
 let jobsToExecute = [];
 let jobsToCalculate = [];
 let chartData = [];
@@ -28,13 +31,6 @@ let messages = {
 		warning: '-textwarnning'
 	}
 }
-
-var workerSch = new Worker('../../../assets/dev/js/sleep-worker.js');
-console.log(workerSch);
-workerSch.addEventListener('message', function(e) {
-	console.log('Worker said: ', e.data);
-}, false);
-
 
 $(document).ready(function() {
 	$('[data-toggle="tooltip"]').tooltip();
@@ -90,104 +86,103 @@ function startJobs() {
 		toast(messages.error.timeSliceEmpty, messages.color.danger);
 		return;
 	}
-	
+
 	disableForm('disable');
 	chartData = [];
 	let typeProgress = $('.typeOfProcess').val();
 	toast(messages.alert.executeJobs, messages.color.success);
 	$('.table-logs').append(`<li class="-itemjob"><p>Tipo de Escalonamento escolhido: <span class="-numbersecondjob">${typeProgress}</span></p></li>`);
-	startTimeJobs = new Date().getTime();
-
 	if(typeProgress === "RRS") {
-		while(jobsToExecute.length > 0) {
-			let jobNow = jobsToExecute[0];
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobNow.jobId}</span><span class="-startjob">executando uma parte</span></li>`);
-			jobPreemptivo(jobNow);
-		}
+		jobPreemptivo();
 	} else if(typeProgress === "SJF") {
 		jobsToExecute.sort(compareTime);
-		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-startjob">executando</span></li>`);
-			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-stopjob">finalizou</span></li>`);
-		}
+		jobRoundRobin();
 	} else if(typeProgress === "PRIORITY") {
 		jobsToExecute.sort(comparePriority);
-		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-startjob">executando</span></li>`);
-			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-stopjob">finalizou</span></li>`);
-		}
+		jobRoundRobin();
 	} else if(typeProgress === "FIFO") {
-		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-startjob">executando</span></li>`);
-			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-stopjob">finalizou</span></li>`);
-		}
+		jobRoundRobin();
 	}
-
-	jobsToExecute = [];
 }
-
-function jobPreemptivo(jobItem) {
-	if((jobItem.totalClocks / timeSlice) > 30) {
-		toast(`Sistema matou o Job ${jobItem.jobId} pois é muito grande podendo danificar o sistema.`, messages.color.danger);
-		$('.table-logs').append(`<li class="-itemjob"><span class="-killjob">Escalonador matou</span> o Job <span class="-numberjob">${jobItem.jobId}</span></li>`);
+function jobPreemptivo() {
+	startTime = new Date().getTime();
+	runPreemptivo(0);
+}
+function runPreemptivo(index){
+	if(!verifyJobs()){
+		return index;
+	}
+	if(index >= jobsToExecute.length){
+			index = 0;
+	}
+	if(jobsToExecute[index].totalClocks <= 0){
+		runPreemptivo(index + 1);
+		return index;
+	}
+	if(jobsToExecute[index].totalClocks / timeSlice > 30){
+		toast(`Sistema encerrou o job ${jobsToExecute[index].jobId} por ser muito grande`, messages.color.danger);
 		jobsToExecute.shift();
+		runPreemptivo(index);
 		return;
 	}
-
-	if(!jobItem.executed) {
-		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
-		let now = new Date().getTime();
-		let startTime = (now - startTimeJobs) / 1000;
-		sleep();
-		//workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
-		//workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
-		let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
-		let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
-		chartData.push(jobExecution);
-		jobsToExecute.shift();
-
-		if(jobItem.totalClocks <= 0) {
-			jobItem.executed = true;
-			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobItem.jobId}</span><span class="-stopjob">executou totalmente.</span></li>`);
-		} else {
-			jobsToExecute.push(jobItem);
+	startTimeJobs = (new Date().getTime() - startTime ) / 1000;
+	setTimeout(function() {
+			jobsToExecute[index].totalClocks = jobsToExecute[index].totalClocks - timeSlice;
+			finishTime = (new Date().getTime() - startTime) / 1000;
+			let jobExecution = new TimeExecution(jobsToExecute[index].jobId, startTimeJobs, finishTime);
+			chartData.push(jobExecution);
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[index].jobId}</span><span class="-startjob">executando</span></li>`);
+			if(jobsToExecute[index].totalClocks <= 0){
+				$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[index].jobId}</span><span class="-stopjob">finalizou</span></li>`);
+				runPreemptivo(index + 1);
+				return index;
+			}
+			runPreemptivo(index + 1);
+	}, 1000);
+}
+function verifyJobs(){
+	for(var i = 0; i < jobsToExecute.length; i++){
+		if(jobsToExecute[i].totalClocks >= 0){
+			return true;
 		}
 	}
+	return false;
 }
-
-function jobRoundRobin(jobItem) {
-	if((jobItem.totalClocks / timeSlice) > 30) {
-		toast(`Sistema matou o Job ${jobItem.jobId} pois é muito grande podendo danificar o sistema.`, messages.color.danger);
-		$('.table-logs').append(`<li class="-itemjob"><span class="-killjob">Escalonador matou</span> o Job <span class="-numberjob">${jobItem.jobId}</span></li>`);
+function jobRoundRobin() {
+	startTime = new Date().getTime();
+	run(0);
+}
+function run(index){
+	if(index >= jobsToExecute.length){
+			return index;
+	}
+	if(jobsToExecute[index].totalClocks / timeSlice > 30){
+		toast(`Sistema encerrou o job ${jobsToExecute[index].jobId} por ser muito grande`, messages.color.danger);
+		index++;
+		run(index);
 		return;
 	}
-
-	let now = new Date().getTime();
-	let startTime = (now - startTimeJobs) / 1000;
-	while(jobItem.totalClocks > 0) {
-		console.log(jobItem.totalClocks);
-		sleep();
-		//workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
-		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
-	}
-
-	//workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
-
-	let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
-	let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
-	chartData.push(jobExecution);
+	startTimeJobs = (new Date().getTime() - startTime ) / 1000;
+	setTimeout(function() {
+			finishTime = (new Date().getTime() - startTime) / 1000;
+			let jobExecution = new TimeExecution(jobsToExecute[index].jobId, startTimeJobs, finishTime);
+			chartData.push(jobExecution);
+			jobsToExecute[index].totalClocks = jobsToExecute[index].totalClocks - timeSlice;
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[index].jobId}</span><span class="-startjob">executando</span></li>`);
+			if(jobsToExecute[index].totalClocks <= 0){
+				$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[index].jobId}</span><span class="-stopjob">finalizou</span></li>`);
+				index++;
+			}
+			run(index);
+	}, 1000);
 }
-
 function createChart() {
 	if((chartData.length <= 0)  || (chartData == null)) {
 		toast(messages.error.arrayTimesEmpty, messages.color.danger);
 		return;
 	}
 
-	calculo();
+calculo();
 	google.charts.load("current", { packages: ["timeline"] });
 	google.charts.setOnLoadCallback(drawChart);
 	$('#createChart').prop('disabled', true);
@@ -224,13 +219,13 @@ function drawChart() {
     dataTable.addColumn({ type: 'string', id: 'Job' });
     dataTable.addColumn({ type: 'date', id: 'Start' });
 	dataTable.addColumn({ type: 'date', id: 'End' });
-	
+
 	for (let i = 0; i < chartData.length; i++) {
 		dataTable.addRow(
 			[
-				'Job ' +  chartData[i].jobId,  
-				new Date(0, 0, 0, 0, 0, chartData[i].startTime ),  
-				new Date(0, 0, 0, 0, 0, chartData[i].finishTime) 
+				'Job ' +  chartData[i].jobId,
+				new Date(0, 0, 0, 0, 0, chartData[i].startTime ),
+				new Date(0, 0, 0, 0, 0, chartData[i].finishTime)
 			]
 		);
 	}
@@ -238,7 +233,7 @@ function drawChart() {
     let options = {
     	timeline: { singleColor: '#007bff' },
 	};
-	
+
     chart.draw(dataTable, options);
 }
 
