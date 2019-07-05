@@ -35,8 +35,7 @@ let sources = {
         ]
     }, 
     js: [
-        './assets/dev/js/default.js',
-        './assets/dev/js/custom.js'
+        './assets/dev/js/default.js'
     ],
     watch: {
         less: [

@@ -92,34 +92,35 @@ function startJobs() {
 	disableForm('disable');
 	chartData = [];
 	let typeProgress = $('.typeOfProcess').val();
-	$('.table-logs').append("<li>Iniciando execução dos Jobs. Modo de execução: " + typeProgress +"</li>");
+	// toast(Iniciando execução dos Jobs. );
+	$('.table-logs').append("<li class='-itemjob'><p>Tipo de Escalonamento escolhido: <span class='-numbersecondjob'>" + typeProgress +"</span></p></li>");
 	startTimeJobs = new Date().getTime();
 
 	if(typeProgress === "RRS") {
 		while(jobsToExecute.length > 0) {
 			let jobNow = jobsToExecute[0];
-			$('.table-logs').append("<li>Job " + jobNow.jobId + " executando uma parte</li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobNow.jobId + "</span> executando uma parte</li>");
 			jobPreemptivo(jobNow);
 		}
 	} else if(typeProgress === "SJF") {
 		jobsToExecute.sort(compareTime);
 		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-startjob'>executando</span></li>");
 			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-stopjob'>finalizou</span></li>");
 		}
 	} else if(typeProgress === "PRIORITY") {
 		jobsToExecute.sort(comparePriority);
 		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-startjob'>executando</span></li>");
 			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-stopjob'>finalizou</span></li>");
 		}
 	} else if(typeProgress === "FIFO") {
 		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " executando </li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-startjob'>executando</span></li>");
 			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append("<li>Job " + jobsToExecute[i].jobId + " finalizou </li>");
+			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-stopjob'>finalizou</span></li>");
 		}
 	}
 
@@ -138,9 +139,9 @@ function jobPreemptivo(jobItem) {
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 		let now = new Date().getTime();
 		let startTime = (now - startTimeJobs) / 1000;
-		// sleep();
-		workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
-		workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
+		sleep();
+		//workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
+		//workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
 		let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
 		let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
 		chartData.push(jobExecution);
@@ -166,12 +167,12 @@ function jobRoundRobin(jobItem) {
 	let startTime = (now - startTimeJobs) / 1000;
 	while(jobItem.totalClocks > 0) {
 		console.log(jobItem.totalClocks);
-		// sleep();
-		workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
+		sleep();
+		//workerSch.postMessage({ 'cmd': 'startWorker', 'msg': 1000} );
 		jobItem.totalClocks = jobItem.totalClocks - timeSlice;
 	}
 
-	workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
+	//workerSch.postMessage({ 'cmd': 'stopWorker', 'msg': 'STOP'} );
 
 	let finishTime = (new Date().getTime() - startTimeJobs) / 1000;
 	let jobExecution = new TimeExecution(jobItem.jobId, startTime, finishTime);
@@ -279,6 +280,8 @@ function drawCalculo() {
 	let lengthTime =  jobsToCalculate.length;
 	let totalTime = 0;
 	let valuesTotalTime = "";
+	let valueWaitTotal = 0;
+	let valueTotal = 0;
 	for(let a = 0; a < jobsToCalculate.length; a++) {
 		$('#calculo table tbody').append(`
 		<tr>
@@ -295,11 +298,12 @@ function drawCalculo() {
 			valuesTotalTime = valuesTotalTime +  " + ";
 		}
 	}
-
+	valueTotal = (totalTime/lengthTime).toFixed(3);
+	valueWaitTotal = (totalWaitTime/lengthTime).toFixed(3);
 	$('.totalTimeValues').text(valuesTotalTime);
 	$('.waitTimeValues').text(valuesWaitTime);
-	$('.valueWaitTotal').text((totalWaitTime/lengthTime) + 's');
-	$('.valueTotal').text((totalTime/lengthTime) + 's');
+	$('.valueWaitTotal').text(valueWaitTotal + 's');
+	$('.valueTotal').text(valueTotal + 's');
 	$('.lengthTime').text(lengthTime);
 	$('#sectionCalculo').removeClass('hide');
 }
@@ -315,9 +319,9 @@ function cleanScheduler() {
 		$('#schTimeExecution').val("");
 		$('#timeSlice').val("");
 		$('#sectionGraphic').hide();
-		// $('#sectionCalculo').hide();
+		$('#sectionCalculo').hide();
 		$('#chartTime').html("");
-		// $('#chartTime').html("");
+		$('#tbodyScheduler').html("");
 		disableForm('enable');
 		toast(messages.alert.restartScheduler, messages.color.success);
 	});
