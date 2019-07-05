@@ -12,13 +12,15 @@ let messages = {
 	error: {
 		totalTimeExecution: 'Insira um valor válido ao Tempo de Execução',
 		timeSliceEmpty: 'Insira um valor válido ao Intervalo de Tempo',
-		arrayTimesEmpty: 'Execute uma operação para montar o gráfico!'
+		arrayTimesEmpty: 'Execute uma operação para montar o gráfico!',
+		inputsEmpty: 'Adicione Jobs a fila!'
 
 	},
 	alert: {
 		executeJobs: 'Iniciando o escalonamento dos Jobs',
 		restartScheduler: 'Escalonador reiniciado!',
-		graphicMounted: 'Gráfico montado com sucesso!'
+		graphicMounted: 'Gráfico montado com sucesso!',
+		initExeJobs: 'Iniciando execução dos Jobs'
 	},
 	color: {
 		success: '-textsuccess',
@@ -79,7 +81,7 @@ function createQueue() {
 
 function startJobs() {
 	if((jobsToExecute.length <= 0) || (jobsToExecute == null)) {
-		toast(messages.arrayJobsEmpty);
+		toast(messages.error.inputsEmpty, messages.color.danger);
 		return;
 	}
 
@@ -92,35 +94,35 @@ function startJobs() {
 	disableForm('disable');
 	chartData = [];
 	let typeProgress = $('.typeOfProcess').val();
-	// toast(Iniciando execução dos Jobs. );
-	$('.table-logs').append("<li class='-itemjob'><p>Tipo de Escalonamento escolhido: <span class='-numbersecondjob'>" + typeProgress +"</span></p></li>");
+	toast(messages.alert.executeJobs, messages.color.success);
+	$('.table-logs').append(`<li class="-itemjob"><p>Tipo de Escalonamento escolhido: <span class="-numbersecondjob">${typeProgress}</span></p></li>`);
 	startTimeJobs = new Date().getTime();
 
 	if(typeProgress === "RRS") {
 		while(jobsToExecute.length > 0) {
 			let jobNow = jobsToExecute[0];
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobNow.jobId + "</span> executando uma parte</li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobNow.jobId}</span><span class="-startjob">executando uma parte</span></li>`);
 			jobPreemptivo(jobNow);
 		}
 	} else if(typeProgress === "SJF") {
 		jobsToExecute.sort(compareTime);
 		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-startjob'>executando</span></li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-startjob">executando</span></li>`);
 			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-stopjob'>finalizou</span></li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-stopjob">finalizou</span></li>`);
 		}
 	} else if(typeProgress === "PRIORITY") {
 		jobsToExecute.sort(comparePriority);
 		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-startjob'>executando</span></li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-startjob">executando</span></li>`);
 			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-stopjob'>finalizou</span></li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-stopjob">finalizou</span></li>`);
 		}
 	} else if(typeProgress === "FIFO") {
 		for (let i = 0; i < jobsToExecute.length; i++) {
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-startjob'>executando</span></li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-startjob">executando</span></li>`);
 			jobRoundRobin(jobsToExecute[i]);
-			$('.table-logs').append("<li class='-itemjob'>Job <span class='-numberjob'>" + jobsToExecute[i].jobId + "</span><span class='-stopjob'>finalizou</span></li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobsToExecute[i].jobId}</span><span class="-stopjob">finalizou</span></li>`);
 		}
 	}
 
@@ -129,8 +131,8 @@ function startJobs() {
 
 function jobPreemptivo(jobItem) {
 	if((jobItem.totalClocks / timeSlice) > 30) {
-		toast("Sistema matou o Job " + jobItem.jobId + " pois é muito grande podendo danificar o sistema.")
-		$('.table-logs').append("<li>Sistema matou o Job " + jobItem.jobId + " </li>");
+		toast(`Sistema matou o Job ${jobItem.jobId} pois é muito grande podendo danificar o sistema.`, messages.color.danger);
+		$('.table-logs').append(`<li class="-itemjob"><span class="-killjob">Escalonador matou</span> o Job <span class="-numberjob">${jobItem.jobId}</span></li>`);
 		jobsToExecute.shift();
 		return;
 	}
@@ -149,7 +151,7 @@ function jobPreemptivo(jobItem) {
 
 		if(jobItem.totalClocks <= 0) {
 			jobItem.executed = true;
-			$('.table-logs').append("<li>Job " + jobItem.jobId + " executou totalmente. </li>");
+			$('.table-logs').append(`<li class="-itemjob">Job <span class="-numberjob">${jobItem.jobId}</span><span class="-stopjob">executou totalmente.</span></li>`);
 		} else {
 			jobsToExecute.push(jobItem);
 		}
@@ -158,8 +160,8 @@ function jobPreemptivo(jobItem) {
 
 function jobRoundRobin(jobItem) {
 	if((jobItem.totalClocks / timeSlice) > 30) {
-		toast("Sistema matou o Job " + jobItem.jobId + " pois é muito grande podendo danificar o sistema.");
-		$('.table-logs').append("<li>Sistema matou o Job " + jobItem.jobId + " </li>");
+		toast(`Sistema matou o Job ${jobItem.jobId} pois é muito grande podendo danificar o sistema.`, messages.color.danger);
+		$('.table-logs').append(`<li class="-itemjob"><span class="-killjob">Escalonador matou</span> o Job <span class="-numberjob">${jobItem.jobId}</span></li>`);
 		return;
 	}
 
@@ -190,6 +192,7 @@ function createChart() {
 	google.charts.setOnLoadCallback(drawChart);
 	$('#createChart').prop('disabled', true);
 	$('#sectionGraphic').show();
+	$('#sectionCalculo').show();
 	toast(messages.alert.graphicMounted, messages.color.success);
 }
 
@@ -258,17 +261,17 @@ function toast(msg, txtColor = null) {
 }
 function calculo(){
 	for(let a = 0; a < jobsToCalculate.length; a++) {
-			$('#calculo table tbody').empty();
-			jobsToCalculate[a].lastTime = 0;
-			jobsToCalculate[a].totalTime = 0;
-			jobsToCalculate[a].waitTime = 0;
-			for(let i = 0; i < chartData.length; i++){
-				if(jobsToCalculate[a].jobId == chartData[i].jobId) {
-					jobsToCalculate[a].totalTime = Math.round(jobsToCalculate[a].totalTime + (chartData[i].finishTime - chartData[i].startTime));
-					jobsToCalculate[a].waitTime = Math.round(jobsToCalculate[a].waitTime + (chartData[i].startTime - jobsToCalculate[a].lastTime));
-					jobsToCalculate[a].lastTime = chartData[i].finishTime;
-				}
+		$('#calculo table tbody').empty();
+		jobsToCalculate[a].lastTime = 0;
+		jobsToCalculate[a].totalTime = 0;
+		jobsToCalculate[a].waitTime = 0;
+		for(let i = 0; i < chartData.length; i++){
+			if(jobsToCalculate[a].jobId == chartData[i].jobId) {
+				jobsToCalculate[a].totalTime = Math.round(jobsToCalculate[a].totalTime + (chartData[i].finishTime - chartData[i].startTime));
+				jobsToCalculate[a].waitTime = Math.round(jobsToCalculate[a].waitTime + (chartData[i].startTime - jobsToCalculate[a].lastTime));
+				jobsToCalculate[a].lastTime = chartData[i].finishTime;
 			}
+		}
 	}
 
 	drawCalculo();

@@ -165,12 +165,18 @@
 		}
 
 		.-startjob {
-			color: @c-sucess;
+			color: #007FFF;
 			display: inline-block;
 			padding-left: 10px;
 		}
 		
 		.-stopjob {
+			color: @c-sucess;
+			display: inline-block;
+    		padding-left: 10px;
+		}
+
+		.-killjob {
 			color: @c-error;
 			display: inline-block;
     		padding-left: 10px;
@@ -400,4 +406,11 @@
 
 .-customcenter {
 	text-align: center;
+}
+
+.-positionfixedalert {
+	position: fixed;
+	top: 8%;
+	width: 100%;
+	z-index: 10;
 }
