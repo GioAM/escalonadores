@@ -22,46 +22,43 @@ Simples aplicação demonstrativa do escalonamento de processos no Sistema Opera
 
 Para executar ou modificar a aplicação em seu local, é necessário ter instalado as seguintes dependências:
 
-  - NodeJS:
+  NodeJS:
 
-      - [Windows](https://nodejs.org/en/download/)
+  - [Windows](https://nodejs.org/en/download/)
 
-      - [Linux (Debian/Ubuntu)](https://github.com/CristianAmbrosi/tutoriais/blob/master/Instalar%20Node.js%20no%20Ubuntu.md)
+  - [Linux (Debian/Ubuntu)](https://github.com/CristianAmbrosi/tutoriais/blob/master/Instalar%20Node.js%20no%20Ubuntu.md)
 
-      - [MacOS](https://nodejs.org/en/download/)
+  - [MacOS](https://nodejs.org/en/download/)
 
-  - Gulp.js:
+  Gulp.js:
 
-      - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando abaixo:
+  - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando abaixo:
 
-        > npm install --global gulp-cli
+    > npm install --global gulp-cli
 
-      - Verfique a versão do Gulp com o comando a baixo:
+  - Verfique a versão do Gulp com o comando a baixo:
 
-        > gulp -v
+    > gulp -v
 
 ## Executando
   
-  - Após clonar o repositório, acesse o diretório *"escalonadores"*.
+  Após clonar o repositório, acesse o diretório *"escalonadores"*.
 
-      > cd escalonadores/
+  > cd escalonadores/
 
-  - Execute o comando a baixo para instalar as dependências necessárias:
+  Execute o comando a baixo para instalar as dependências necessárias:
 
-      > npm install
+  > npm install
 
-  - Instaladas as dependências, use o comando a baixo para executar a aplicação:
+  Instaladas as dependências, use o comando a baixo para executar a aplicação:
 
-      > gulp
+  > gulp
 
-      - *Deve abrir automaticamente o seu navegador.*
+  - *Deve abrir automaticamente o seu navegador.*
 
-  - **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**.
+  **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**.
 
 ## Autores
 
-  - [@CristianAmbrosi](https://github.com/CristianAmbrosi)
-
-  - [@GioAM](https://github.com/GioAM)
-
-  - [@leticiapmay99](https://github.com/leticiapmay99)
+  | [<img src="https://avatars3.githubusercontent.com/u/9125404?s=460&v=4" width=115><br><sub>@cjambrosi</sub>](https://github.com/cjambrosi) | [<img src="https://avatars3.githubusercontent.com/u/34317514?s=400&v=4" width=115><br><sub>@GioAM</sub>](https://github.com/GioAM) | [<img src="https://avatars3.githubusercontent.com/u/43357500?s=400&v=4" width=115><br><sub>@leticiapmay99</sub>](https://github.com/leticiapmay99) |
+  | :---: | :---: | :---: |
