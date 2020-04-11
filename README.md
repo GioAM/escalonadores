@@ -18,7 +18,7 @@
 
 Simples aplicação demonstrativa do escalonamento de processos no Sistema Operacional. Desenvolvido para a matéria de Sistemas Operacionais I.
 
-## Executando localmente
+## Instalando as dependências
 
 Para executar ou modificar a aplicação em seu local, é necessário ter instalado as seguintes dependências:
 
