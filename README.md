@@ -24,41 +24,43 @@ Para executar ou modificar a aplicação em seu local, é necessário ter instal
 
   NodeJS:
 
-  - [Windows](https://nodejs.org/en/download/)
+  - https://classic.yarnpkg.com/en/docs/install/
 
   - [Linux (Debian/Ubuntu)](https://github.com/CristianAmbrosi/tutoriais/blob/master/Instalar%20Node.js%20no%20Ubuntu.md)
 
   - [MacOS](https://nodejs.org/en/download/)
-
-  Gulp.js:
-
-  - Tendo instalado o NodeJS, instale o Gulp (versão >= 4.0.0) **globalmente** na sua máquina com o comando abaixo:
-
-    > npm install --global gulp-cli
-
-  - Verfique a versão do Gulp com o comando a baixo:
-
-    > gulp -v
+  
+  Yarn:
+  - https://classic.yarnpkg.com/en/docs/install/
 
 ## Executando
   
-  Após clonar o repositório, acesse o diretório *"escalonadores"*.
+  Após clonar o repositório, acesse o diretório *"backend"*.
 
-  > cd escalonadores/
+  > cd backend/
 
   Execute o comando a baixo para instalar as dependências necessárias:
 
-  > npm install
+  > yarn install
 
   Instaladas as dependências, use o comando a baixo para executar a aplicação:
 
-  > gulp
+  > yarn start
+  
+  Esses comandos irão iniciar o servidor backend rodando na porta 8080. O mesmo contém as APIs que serão usadas na aplicação para acessar o banco.
+  
+  --------------------
+  Após isso acesse o diretório *"frontend"*.
 
-  - *Deve abrir automaticamente o seu navegador.*
+  > cd frontend/
 
-  **Importante**. Toda vez que for necessário **comitar** alterações, **atualizar** o seu repositório local ou incluir novas bibliotecas, deve-se **encerrar** a execução do Gulp no terminal com o atalho **Ctrl + C**.
+  Execute o comando a baixo para instalar as dependências necessárias:
 
-## Autores
+  > yarn install
 
-  | [<img src="https://avatars3.githubusercontent.com/u/9125404?s=460&v=4" width=115><br><sub>@cjambrosi</sub>](https://github.com/cjambrosi) | [<img src="https://avatars3.githubusercontent.com/u/34317514?s=400&v=4" width=115><br><sub>@GioAM</sub>](https://github.com/GioAM) | [<img src="https://avatars3.githubusercontent.com/u/43357500?s=400&v=4" width=115><br><sub>@leticiapmay99</sub>](https://github.com/leticiapmay99) |
-  | :---: | :---: | :---: |
+  Instaladas as dependências, use o comando a baixo para executar a aplicação:
+
+  > yarn start
+  
+  Esses comandos irão iniciar o servidor frontend rodando na porta 3000. O mesmo contém o front da aplicação que deve ser acessada através do navegador.
+  
